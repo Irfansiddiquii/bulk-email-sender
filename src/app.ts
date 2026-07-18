@@ -2,16 +2,15 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
-import { serveStatic } from "hono/bun";
 import { mkdir } from "fs/promises";
 import { existsSync } from "fs";
 import { config } from "dotenv";
+import { getCookie, deleteCookie } from "hono/cookie";
 
 // Import middleware
 import { authMiddleware } from "./middleware/auth";
 
 // Import routes
-import indexRoutes from "./routes/index";
 import authRoutes from "./routes/auth";
 import sendRoutes from "./routes/send";
 import reportRoutes from "./routes/report";
@@ -27,42 +26,18 @@ const app = new Hono();
 app.use("*", cors());
 app.use("*", logger());
 
-// Apply authentication middleware to all routes except auth routes
+// Apply authentication middleware to all protected routes
 app.use("*", async (c, next) => {
   const path = c.req.path;
 
   // Public paths that don't require authentication
   const publicPaths = [
     "/auth/",
-    "/login",
-    "/register",
-    "/public/",
-    "/css/",
-    "/js/",
-    "/favicon.ico",
+    "/health",
   ];
 
-  // Special handling for root path - check auth and redirect accordingly
-  if (path === "/") {
-    const token = c.req.cookie("session_token");
-    if (!token) {
-      return c.redirect("/login");
-    }
-
-    // Validate token
-    const { userDatabase } = await import("./services/userDatabase");
-    const user = userDatabase.validateSession(token);
-    if (!user) {
-      return c.redirect("/login");
-    }
-
-    // User is authenticated, continue to dashboard
-    c.user = user;
-    return await next();
-  }
-
-  // Skip auth for public paths
-  if (publicPaths.some((p) => path.startsWith(p))) {
+  // Skip auth for public paths and root path
+  if (publicPaths.some((p) => path.startsWith(p)) || path === "/") {
     return await next();
   }
 
@@ -80,17 +55,16 @@ async function initializeDirectories() {
   }
 }
 
-// Serve static files (must be before other routes)
-app.use("/public/*", serveStatic({ root: "./" }));
-app.use("/css/*", serveStatic({ root: "./public" }));
-app.use("/js/*", serveStatic({ root: "./public" }));
-
-// Login page route (public)
-app.get("/login", serveStatic({ path: "./public/login.html" }));
-
 // Routes
+app.get("/", (c) => {
+  return c.json({
+    success: true,
+    status: "OK",
+    message: "Bulk Email Sender API Server",
+  });
+});
+
 app.route("/", authRoutes); // Auth routes (login, register, logout)
-app.route("/", indexRoutes); // Dashboard and main interface
 app.route("/", sendRoutes); // Email sending functionality
 app.route("/", reportRoutes); // Reports and analytics
 app.route("/", configRoutes); // User SMTP configurations
@@ -108,7 +82,7 @@ app.get("/health", (c) => {
 // User info endpoint (for frontend)
 app.get("/user/info", async (c) => {
   try {
-    const token = c.req.cookie("session_token");
+    const token = getCookie(c, "session_token");
     if (!token) {
       return c.json({ success: false, message: "Not authenticated" }, 401);
     }
@@ -134,53 +108,28 @@ app.get("/user/info", async (c) => {
 
 // 404 handler
 app.notFound((c) => {
-  const path = c.req.path;
-
-  // If it's an API call, return JSON
-  if (
-    path.startsWith("/api/") ||
-    path.startsWith("/config/") ||
-    path.startsWith("/send") ||
-    path.startsWith("/report")
-  ) {
-    return c.json({ message: "Endpoint not found" }, 404);
-  }
-
-  // For web requests, redirect to login or dashboard
-  const token = c.req.cookie("session_token");
-  if (!token) {
-    return c.redirect("/login");
-  }
-
-  return c.redirect("/");
+  return c.json({ success: false, message: "Endpoint not found" }, 404);
 });
 
 // Error handler
 app.onError((err, c) => {
   console.error("Application error:", err);
-
-  // If it's an authentication error, redirect to login
-  if (
-    err.message.includes("Authentication") ||
-    err.message.includes("Session")
-  ) {
-    return c.redirect("/login");
-  }
-
   return c.json(
     {
+      success: false,
       message: "Internal Server Error",
-      error: process.env.NODE_ENV === "development" ? err.message : undefined,
+      error: err.message,
     },
     500
   );
 });
 
+// Force watcher reload check: 6
 // Initialize and start server
-const port = process.env.PORT || 3000;
+const port = Number(process.env.PORT) || 3000;
 
 console.log("🚀 Initializing Bulk Email Sender with User Management...");
-await initializeDirectories();
+initializeDirectories();
 
 // Display configuration status
 console.log("\n📋 Configuration Status:");
@@ -201,9 +150,9 @@ console.log("✅ Session-based authentication");
 console.log("✅ User-specific SMTP configurations");
 console.log("✅ Secure password hashing with Argon2");
 
-console.log(`\n🌐 Server starting on port ${port}`);
-console.log(`   🖥️  Dashboard: http://localhost:${port}`);
-console.log(`   🔑 Login Page: http://localhost:${port}/login`);
+console.log(`\n🌐 Backend API Server starting on port ${port}`);
+console.log(`   🖥️  API Root: http://localhost:${port}`);
+console.log(`   ⚡ Frontend SvelteKit App: http://localhost:5173`);
 
 // Clean up expired sessions on startup
 setTimeout(async () => {
@@ -215,6 +164,14 @@ setTimeout(async () => {
     console.error("Error cleaning expired sessions:", error);
   }
 }, 1000);
+
+if (typeof Bun === "undefined") {
+  const { serve } = require("@hono/node-server");
+  serve({
+    fetch: app.fetch,
+    port,
+  });
+}
 
 export default {
   port,

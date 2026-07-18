@@ -4,9 +4,9 @@
   "description": "Web-based bulk email sender with user management and WYSIWYG editor",
   "main": "src/app.ts",
   "scripts": {
-    "dev": "bun run --watch src/app.ts",
-    "build": "bun build src/app.ts --outdir=dist",
-    "start": "bun run src/app.ts",
+    "dev": "powershell -Command \"Start-Process -NoNewWindow -FilePath cmd.exe -ArgumentList '/c npm run dev' -WorkingDirectory frontend\" && tsx watch src/app.ts",
+    "build": "tsc",
+    "start": "node dist/app.js",
     "clean": "rm -rf dist uploads/* logs/* data/users.db",
     "reset-db": "rm -f data/users.db data/scheduler.db",
     "test": "echo \"Error: no test specified\" && exit 1"

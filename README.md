@@ -2,77 +2,105 @@
 
 ## 📋 Project Overview
 
-This is a **Bulk Email Sender** web application currently built with **Hono** (backend) and vanilla **HTML/CSS/JavaScript** (frontend). Your assignment is to **migrate the frontend to SvelteKit** while maintaining the existing Hono backend functionality.
-
-### Current Tech Stack
-- **Backend**: Hono (Bun runtime)
-- **Frontend**: Vanilla HTML/CSS/JS with Bootstrap 5, Quill Editor
-- **Database**: SQLite (via Bun:sqlite)
-- **Authentication**: Argon2 password hashing with session tokens
-- **Email**: Nodemailer with SMTP
-
-### Target Tech Stack
-- **Backend**: Hono (keep as-is, migrate to Node.js/Deno with npm/pnpm/yarn)
-- **Frontend**: **SvelteKit** (modern, enhanced version)
-- **Database**: SQLite (maintain existing schema)
-- **State Management**: TanStack Query (optional)
-- **Authentication**: Same logic, adapted for SvelteKit
+This project has been migrated from a **Hono (Bun)** backend serving vanilla HTML files to:
+- **Backend**: Pure Node.js runtime using Hono's `@hono/node-server`, `better-sqlite3`, and `tsx` watcher.
+- **Frontend**: A modern **SvelteKit** application powered by **Tailwind CSS**, **TipTap WYSIWYG**, and **Lucide Svelte** icons.
 
 ---
 
-## 🎯 Assignment Objectives
+## 🏗️ Architecture & Folder Structure
 
-
-### 1. **Implement SvelteKit Frontend**
-- ✅ Create a **modern, clean UI** using SvelteKit
-- ✅ Implement all existing features with enhanced UX
-- ✅ Add client-side validation and error handling
-- ✅ Implement responsive design (mobile-friendly)
-
-### 2. **Remove Old Frontend**
-- ✅ Delete `public/` folder (HTML, CSS, JS files)
-- ✅ Remove static file serving routes from backend (except API endpoints)
-- ✅ Ensure no dependencies on old frontend code
-
-### 3. **Update Documentation**
-- ✅ Update `README.md` with new architecture
-- ✅ Document setup instructions for both backend and frontend
-- ✅ Add API documentation
-- ✅ Include screenshots/demos of new UI
-
-## 🎨 UI/UX Requirements
-
-### Design Principles
-- **Clean and modern** design (avoid cluttered UI)
-- **Intuitive navigation** (clear tabs/sections)
-- **Responsive layout** (mobile, tablet, desktop)
-- **Accessible** (ARIA labels, keyboard navigation)
-- **Fast and performant** (lazy loading, optimistic updates)
-
-
-## 💡 Pro Tips
-
-1. **Use TypeScript strictly** - Helps catch errors early
-2. **Component first** - Build reusable components
-3. **API client abstraction** - Centralize API calls
-4. **Form validation** - Use Zod or similar library
-5. **Loading states everywhere** - Better UX
-6. **Error boundaries** - Graceful error handling
-7. **Optimistic updates** - Instant feedback
-8. **Debounce searches** - Reduce API calls
-9. **Lazy load routes** - Faster initial load
-10. **Test on mobile** - Responsive design matters
-
-
-## 📞 Questions?
-
-If you have questions during implementation:
-1. Check existing backend code for API behavior
-2. Review types.ts for data structures
-3. Test API endpoints with Postman/Thunder Client
-4. Read SvelteKit docs for routing/forms
-5. Use browser DevTools for debugging
+```text
+├── data/                  # SQLite Databases (users.db, scheduler.db)
+├── uploads/               # Excel attachment uploads directory
+├── logs/                  # Dispatch audit logs directory
+├── src/                   # Backend Node.js API codebase (Hono)
+│   ├── services/          # SQLite user/batch/scheduler service modules
+│   ├── middleware/        # Authentication sessions validation
+│   └── app.ts             # Application entrypoint using @hono/node-server
+├── frontend/              # SvelteKit Single Page Application
+│   ├── src/
+│   │   ├── lib/
+│   │   │   ├── api/       # Central Axios client configuration
+│   │   │   ├── stores/    # Auth, SMTP Configs, and Toast alerts state
+│   │   │   └── components/# TipTap rich-text editor wrapper
+│   │   ├── routes/        # App page routes (login, register, configs, compose, reports)
+│   │   ├── app.html       # HTML entry shell
+│   │   └── app.css        # Tailwind utility loader
+│   ├── tailwind.config.js # Tailwind CSS configuration
+│   └── vite.config.ts     # Vite proxy forwarding API endpoints to backend
+└── package.json           # Backend dependencies and scripts
+```
 
 ---
 
-**Good luck! 🚀 Build something amazing!**
+## ⚡ Development & Running Setup
+
+Follow these steps to run the application locally.
+
+### 1. Backend Server Setup
+From the project root workspace directory:
+```bash
+# 1. Install Node.js backend dependencies
+npm install
+
+# 2. Start Hono API server in watch mode (running on port 3000)
+npm run dev
+```
+
+### 2. Frontend SvelteKit Setup
+In a new terminal window:
+```bash
+# 1. Navigate to frontend directory
+cd frontend
+
+# 2. Install SvelteKit dependencies
+npm install
+
+# 3. Start SvelteKit development server (running on port 5173)
+npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173) in your browser to experience the migrated, premium application.
+
+---
+
+## 🧹 Legacy Frontend Removal
+
+The legacy public static files are now obsolete. You can delete the `public` directory from the root directory:
+```bash
+rm -rf public
+```
+
+---
+
+## 📡 API Reference
+
+- **Auth Routes**:
+  - `POST /auth/register` - User registration
+  - `POST /auth/login` - User login
+  - `POST /auth/logout` - User logout
+  - `GET /user/info` - Get current session user info
+- **SMTP Configuration**:
+  - `GET /config/smtp` - Retrieve SMTP configurations
+  - `POST /config/smtp` - Add new SMTP configuration
+  - `PUT /config/smtp/:id` - Update SMTP configuration
+  - `DELETE /config/smtp/:id` - Delete SMTP configuration
+  - `POST /config/smtp/:id/default` - Set SMTP configuration as primary default
+  - `POST /config/smtp/test` - Diagnostic connection test
+- **Campaign Sends**:
+  - `POST /send` - Dispatch/schedule campaign (Multi-part form)
+  - `POST /parse-excel` - Recipient spreadsheet parse check
+  - `GET /scheduled-jobs` - Get pending schedule lists
+  - `DELETE /scheduled-jobs/:id` - Cancel scheduled email job
+- **Batch Monitoring**:
+  - `GET /batch-status` - Active progress percentage checks
+  - `POST /batch-pause` - Pause sending loop
+  - `POST /batch-resume` - Resume sending loop
+  - `DELETE /batch-cancel` - Clear batch queue
+- **Analytics & Logs**:
+  - `GET /report` - Log list & statistics counters
+  - `GET /report/export/csv` - Download CSV stream
+  - `GET /report/export/json` - Download JSON stream
+  - `DELETE /report/clear` - Reset log history
+

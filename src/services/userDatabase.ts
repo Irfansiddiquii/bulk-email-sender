@@ -1,9 +1,44 @@
 // src/services/userDatabase.ts - SECURE VERSION FOR PRODUCTION
-import Database from "bun:sqlite";
 import { existsSync, mkdirSync } from "fs";
 import { dirname } from "path";
 import { hash, verify } from "argon2";
 import { createHmac, randomBytes } from "crypto";
+
+let Database: any;
+if (typeof Bun !== "undefined") {
+  Database = require("bun:sqlite").default;
+} else {
+  const { DatabaseSync } = require("node:sqlite");
+  Database = class NodeDatabase {
+    private db: any;
+    constructor(path: string) {
+      this.db = new DatabaseSync(path);
+    }
+    query(sql: string) {
+      const stmt = this.db.prepare(sql);
+      return {
+        run: (...args: any[]) => {
+          return stmt.run(...args);
+        },
+        all: (...args: any[]) => {
+          return stmt.all(...args);
+        },
+        get: (...args: any[]) => {
+          return stmt.get(...args);
+        }
+      };
+    }
+    prepare(sql: string) {
+      return this.query(sql);
+    }
+    exec(sql: string) {
+      return this.db.exec(sql);
+    }
+    close() {
+      return this.db.close();
+    }
+  };
+}
 
 export interface User {
   id: string;
@@ -54,10 +89,10 @@ class UserDatabase {
 
     this.db = new Database(dbPath);
     this.initDatabase();
-    
+
     // Initialize session secret
     this.sessionSecret = process.env.SESSION_SECRET || this.generateFallbackSecret();
-    
+
     if (!process.env.SESSION_SECRET) {
       console.warn("⚠️  No SESSION_SECRET found in .env file");
       console.warn("🔧 For production security, add SESSION_SECRET to your .env:");
@@ -141,15 +176,15 @@ class UserDatabase {
       // Generate cryptographically secure random bytes (32 bytes = 64 hex chars)
       const randomPart = randomBytes(32).toString('hex');
       const timestamp = Date.now().toString();
-      
+
       // Create payload to sign
       const payload = `${userId}:${timestamp}:${randomPart}`;
-      
+
       // Sign payload with HMAC-SHA256 using secret
       const signature = createHmac('sha256', this.sessionSecret)
         .update(payload)
         .digest('hex');
-      
+
       // Return signed token: payload:signature
       return `${payload}:${signature}`;
     } catch (error) {
@@ -164,24 +199,24 @@ class UserDatabase {
     try {
       // Check if this is a new signed token or old format
       const parts = token.split(':');
-      
+
       if (parts.length === 4) {
         // New signed token format: userId:timestamp:random:signature
         const [userId, timestamp, randomPart, signature] = parts;
         const payload = `${userId}:${timestamp}:${randomPart}`;
-        
+
         // Verify signature
         const expectedSignature = createHmac('sha256', this.sessionSecret)
           .update(payload)
           .digest('hex');
-        
+
         if (signature !== expectedSignature) {
           console.warn("🚨 Invalid token signature detected for user:", userId);
           return null;
         }
-        
+
         return { userId, timestamp: parseInt(timestamp) };
-        
+
       } else if (parts.length === 1 && token.includes('_')) {
         // Old token format: userId_timestamp_random (for backward compatibility)
         const oldParts = token.split('_');
@@ -192,7 +227,7 @@ class UserDatabase {
           return { userId, timestamp };
         }
       }
-      
+
       return null;
     } catch (error) {
       console.error("❌ Token verification error:", error);
@@ -505,7 +540,7 @@ class UserDatabase {
       for (const session of oldSessions) {
         // Generate new secure token
         const newToken = this.generateSecureToken(userId);
-        
+
         // Update session with new token
         this.db
           .prepare(`UPDATE user_sessions SET token = ? WHERE id = ?`)

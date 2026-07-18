@@ -1,12 +1,47 @@
 // src/services/schedulerService.ts - FIX DOUBLE NOTIFICATION ISSUE
 
-import Database from "bun:sqlite";
 import { batchService } from "./batchService";
 import { emailService } from "./emailService";
 import { notificationService } from "./notificationService";
 import type { EmailJob, BatchConfig, ScheduledJob } from "../types";
 import { existsSync, mkdirSync } from "fs";
 import { dirname } from "path";
+
+let Database: any;
+if (typeof Bun !== "undefined") {
+  Database = require("bun:sqlite").default;
+} else {
+  const { DatabaseSync } = require("node:sqlite");
+  Database = class NodeDatabase {
+    private db: any;
+    constructor(path: string) {
+      this.db = new DatabaseSync(path);
+    }
+    query(sql: string) {
+      const stmt = this.db.prepare(sql);
+      return {
+        run: (...args: any[]) => {
+          return stmt.run(...args);
+        },
+        all: (...args: any[]) => {
+          return stmt.all(...args);
+        },
+        get: (...args: any[]) => {
+          return stmt.get(...args);
+        }
+      };
+    }
+    prepare(sql: string) {
+      return this.query(sql);
+    }
+    exec(sql: string) {
+      return this.db.exec(sql);
+    }
+    close() {
+      return this.db.close();
+    }
+  };
+}
 
 class SchedulerService {
   private db: Database;
@@ -159,35 +194,35 @@ class SchedulerService {
         console.log(
           `📦 Starting scheduled batch job: ${emailJob.contacts.length} contacts in batches`
         );
-        
+
         // Create notification settings for batch job
         const notificationSettings = job.notify_email ? {
           email: job.notify_email,
           userId: job.user_id,
           configName: job.config_name || 'Scheduled Batch Job'
         } : undefined;
-        
+
         executionPromise = batchService.startBatchJob(emailJob, batchConfig, notificationSettings);
-        
+
         // FIXED: For batch jobs, just monitor completion but DON'T send notification
         // The batch service will handle the notification
         this.monitorBatchJobCompletionOnly(job.id);
-        
+
       } else {
         // For normal jobs, handle notifications at scheduler level
         console.log(
           `📧 Starting scheduled bulk job: ${emailJob.contacts.length} contacts`
         );
-        
+
         // Create notification settings for bulk job
         const notificationSettings = job.notify_email ? {
           email: job.notify_email,
           userId: job.user_id,
           configName: job.config_name || 'Scheduled Bulk Job'
         } : undefined;
-        
+
         executionPromise = emailService.sendBulkEmails(emailJob, notificationSettings);
-        
+
         // Wait for completion and send notification
         await executionPromise;
         await this.completeScheduledJobWithNotification(
@@ -198,7 +233,7 @@ class SchedulerService {
           job.config_name
         );
       }
-      
+
     } catch (error) {
       console.error(`❌ Scheduled job ${job.id} failed:`, error);
 
@@ -279,7 +314,7 @@ class SchedulerService {
       const job = this.db
         .prepare(`SELECT * FROM scheduled_jobs WHERE id = ?`)
         .get(jobId);
-        
+
       await this.sendAdvancedCompletionNotification(jobId, notifyEmail, job, userId, configName);
     }
   }
