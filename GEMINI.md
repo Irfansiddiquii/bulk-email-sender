@@ -4,7 +4,15 @@ Always use:
 - high-end-visual-design
 - ui-ux-pro-max
 
-Use additional skills only when required.
+Use additional skills only when required:
+
+- ckm-design-system
+- ckm-ui-styling
+- vercel-composition-patterns
+- web-design-guidelines
+- tailwind-4-docs
+- motion-graphics
+- hyperframes-animation
 
 Always follow:
 
@@ -21,11 +29,12 @@ Project:
 Rules:
 
 - Preserve all existing functionality.
-- Do not break backend APIs or authentication.
+- Do not break backend APIs, routing or authentication.
 - Reuse existing components.
+- Modify existing files whenever possible.
 - Keep one consistent design system.
 - Build a premium SaaS UI.
 - Improve UI/UX, accessibility and responsiveness.
+- Focus on refinement, not redesign.
 - Avoid unnecessary files or duplicate components.
-- Modify existing files whenever possible.
 - Never use fake data.

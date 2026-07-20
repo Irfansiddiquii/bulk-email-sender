@@ -218,28 +218,13 @@
 </script>
 
 <div class="space-y-8 select-none">
-	<!-- Page Header -->
-	<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 pb-2 border-b border-slate-100">
-		<Header title="Campaign Dashboard" subtitle="Monitor live email sends, queues, and background automated actions" />
-		<div class="flex items-center gap-3 self-end sm:self-auto">
-			{#if lastUpdated}
-				<span class="text-[10px] font-bold text-slate-500 bg-white border border-slate-200/50 px-3 py-2 rounded-xl flex items-center gap-2 shadow-sm">
-					<span class="relative flex h-2 w-2">
-						<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-						<span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-					</span>
-					AUTO-UPDATED: {lastUpdated}
-				</span>
-			{/if}
-			<button 
-				on:click={() => refreshDashboard(true)}
-				class="bg-white border border-slate-200 hover:border-slate-300 hover:bg-slate-50/50 p-2.5 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 text-slate-600 shadow-sm flex items-center justify-center shrink-0"
-				title="Sync Status"
-			>
-				<RefreshCw class="w-4 h-4" />
-			</button>
-		</div>
-	</div>
+	<!-- Page Header Toolbar -->
+	<Header 
+		title="Campaign Dashboard" 
+		subtitle="Monitor live email sends, queues, and background automated actions" 
+		lastUpdated={lastUpdated} 
+		onRefresh={() => refreshDashboard(true)} 
+	/>
 
 	{#if loading}
 		<!-- Modern Skeleton Loading state -->
