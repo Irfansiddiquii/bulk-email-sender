@@ -283,18 +283,43 @@
 	<Header title="Compose Email Campaign" subtitle="Design your newsletter and dispatch to your subscriber database" />
 
 	{#if configurations.length === 0}
-		<div class="bg-white border border-slate-100 rounded-2xl p-12 text-center shadow-sm">
-			<div class="w-16 h-16 bg-amber-50 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-amber-100">
-				<AlertTriangle class="w-8 h-8 text-amber-500" />
+		<div class="p-1 bg-slate-900/[0.03] border border-slate-200/60 rounded-[2rem] shadow-soft max-w-xl mx-auto my-8">
+			<div class="bg-white border border-slate-100/80 rounded-[calc(2rem-0.25rem)] p-8 md:p-10 text-center flex flex-col items-center relative overflow-hidden">
+				<!-- Ambient background aura glow -->
+				<div class="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-amber-500/5 blur-2xl pointer-events-none"></div>
+				<div class="absolute -bottom-12 -left-12 w-32 h-32 rounded-full bg-primary/5 blur-2xl pointer-events-none"></div>
+
+				<!-- Warning Icon Container (Nested Architecture / Double Enclosure) -->
+				<div class="relative mb-5">
+					<div class="absolute inset-0 rounded-2xl bg-amber-500/20 blur-md scale-110 pointer-events-none"></div>
+					<div class="w-14 h-14 bg-gradient-to-b from-amber-50 to-amber-100/60 border border-amber-200/80 rounded-2xl flex items-center justify-center relative z-10 shadow-xs shadow-amber-500/10">
+						<AlertTriangle class="w-7 h-7 text-amber-600" />
+					</div>
+				</div>
+
+				<!-- Eyebrow Pill Badge -->
+				<span class="bg-amber-50 border border-amber-200/60 text-amber-700 font-bold text-[10px] uppercase tracking-[0.14em] px-3 py-1 rounded-full mb-3 inline-block">
+					SMTP Required
+				</span>
+
+				<!-- Heading & Content -->
+				<h3 class="text-xl font-extrabold text-slate-900 tracking-tight">No Sender Account Configured</h3>
+				<p class="text-slate-500 text-xs md:text-sm mt-2 max-w-sm mx-auto leading-relaxed font-medium">
+					You must configure an SMTP email provider (Gmail, Outlook, or custom server) before composing and dispatching email campaigns.
+				</p>
+
+				<!-- Island Primary CTA Button -->
+				<a 
+					href="/configs"
+					class="mt-7 group inline-flex items-center gap-3 bg-gradient-to-r from-primary to-secondary hover:from-primary-dark hover:to-secondary-dark text-white text-[11px] font-bold uppercase tracking-wider px-6 py-3.5 rounded-full transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:scale-105 active:scale-95 shadow-lg shadow-primary/20"
+				>
+					<span>Configure Sender Account</span>
+					<!-- Button-in-button trailing icon -->
+					<span class="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center transition-transform duration-300 group-hover:translate-x-1">
+						<svg class="w-3 h-3 text-white fill-none stroke-current" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+					</span>
+				</a>
 			</div>
-			<h3 class="text-lg font-bold text-slate-800">No SMTP Configuration Selected</h3>
-			<p class="text-slate-500 text-sm mt-1 max-w-sm mx-auto">You must configure an SMTP email account first before writing campaigns.</p>
-			<a 
-				href="/configs"
-				class="mt-6 inline-block bg-primary hover:bg-primary-dark text-white font-bold px-5 py-3 rounded-xl transition-colors text-sm shadow-md shadow-primary/10"
-			>
-				Create Configuration
-			</a>
 		</div>
 	{:else}
 		<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
