@@ -29,8 +29,38 @@
 		try {
 			const res = await reportApi.getReports();
 			if (res.data.success) {
-				logs = res.data.data.logs || [];
-				stats = res.data.data.stats || { total: 0, success: 0, failed: 0, successRate: '0%' };
+				const rawLogs = res.data.data.logs || [];
+				const rawStats = res.data.data.stats || { total: 0, sent: 0, failed: 0, errors: 0 };
+				
+				const success = rawStats.sent || 0;
+				const failed = (rawStats.failed || 0) + (rawStats.errors || 0);
+				const total = rawStats.total || (success + failed);
+				const successRate = total > 0 ? `${Math.round((success / total) * 100)}%` : '0%';
+				
+				stats = {
+					total,
+					success,
+					failed,
+					successRate
+				};
+
+				logs = rawLogs.map((log: any) => {
+					const isErr = log.status === 'Failed' || log.status === 'Error';
+					const level = isErr ? 'ERROR' : 'INFO';
+					let message = log.message;
+					if (!message) {
+						if (log.status === 'Sent') {
+							message = `Email successfully sent to ${log.email} (Subject: "${log.subject || ''}", MsgID: ${log.messageId || 'N/A'})`;
+						} else {
+							message = `${log.status} status for ${log.email}`;
+						}
+					}
+					return {
+						...log,
+						level,
+						message
+					};
+				});
 			}
 		} catch (err) {
 			console.error('Error fetching report:', err);
@@ -194,6 +224,7 @@
 					<input 
 						type="text" 
 						bind:value={searchFilter} 
+						aria-label="Search logs"
 						placeholder="Search logs by message details or timestamp..."
 						class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
 					/>
@@ -203,6 +234,7 @@
 				<div>
 					<select 
 						bind:value={levelFilter}
+						aria-label="Filter by level"
 						class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 bg-white"
 					>
 						<option value="ALL">All Levels</option>

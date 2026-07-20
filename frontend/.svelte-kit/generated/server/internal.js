@@ -23,10 +23,10 @@ export const options = {
 	service_worker_options: undefined,
 	server_error_boundaries: false,
 	templates: {
-		app: ({ head, body, assets, nonce, env }) => "<!DOCTYPE html>\n<html lang=\"en\">\n\t<head>\n\t\t<meta charset=\"utf-8\" />\n\t\t<link rel=\"icon\" href=\"" + assets + "/favicon.png\" />\n\t\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n\t\t" + head + "\n\t</head>\n\t<body data-sveltekit-preload-data=\"hover\" class=\"bg-slate-50 text-slate-800 min-h-screen\">\n\t\t<div style=\"display: contents\">" + body + "</div>\n\t</body>\n</html>\n",
+		app: ({ head, body, assets, nonce, env }) => "<!DOCTYPE html>\n<html lang=\"en\">\n\t<head>\n\t\t<meta charset=\"utf-8\" />\n\t\t<link rel=\"icon\" href=\"" + assets + "/favicon.png\" />\n\t\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n\t\t<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n\t\t<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>\n\t\t<link href=\"https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Inter:wght@100..900&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap\" rel=\"stylesheet\">\n\t\t" + head + "\n\t</head>\n\t<body data-sveltekit-preload-data=\"hover\" class=\"bg-slate-50 text-slate-800 min-h-screen font-sans\">\n\t\t<div style=\"display: contents\">" + body + "</div>\n\t</body>\n</html>\n",
 		error
 	},
-	version_hash: "2l9a0h"
+	version_hash: "4w7qpm"
 };
 
 export async function get_hooks() {

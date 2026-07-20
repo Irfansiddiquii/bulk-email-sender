@@ -173,6 +173,7 @@
 			<input 
 				type="text" 
 				bind:value={searchFilter} 
+				aria-label="Search contacts"
 				placeholder="Search contacts by name, email, or company..."
 				class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
 			/>
@@ -199,8 +200,9 @@
 			<h3 class="font-bold text-slate-800 text-sm">Add New Mailing Recipient</h3>
 			<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
 				<div>
-					<label class="block text-xs font-semibold text-slate-500 mb-1">Full Name</label>
+					<label for="new-name" class="block text-xs font-semibold text-slate-500 mb-1">Full Name</label>
 					<input 
+						id="new-name"
 						type="text" 
 						bind:value={newName} 
 						placeholder="Jane Doe"
@@ -208,8 +210,9 @@
 					/>
 				</div>
 				<div>
-					<label class="block text-xs font-semibold text-slate-500 mb-1">Email Address *</label>
+					<label for="new-email" class="block text-xs font-semibold text-slate-500 mb-1">Email Address *</label>
 					<input 
+						id="new-email"
 						type="email" 
 						bind:value={newEmail} 
 						placeholder="jane.doe@example.com"
@@ -218,8 +221,9 @@
 					/>
 				</div>
 				<div>
-					<label class="block text-xs font-semibold text-slate-500 mb-1">Company / Group</label>
+					<label for="new-company" class="block text-xs font-semibold text-slate-500 mb-1">Company / Group</label>
 					<input 
+						id="new-company"
 						type="text" 
 						bind:value={newCompany} 
 						placeholder="Optional Corp"

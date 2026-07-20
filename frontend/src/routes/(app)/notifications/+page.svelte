@@ -25,7 +25,7 @@
 		browserPermission = permission;
 		if (permission === 'granted') {
 			toastStore.success('Browser notification permission granted.');
-			new Notification('Antigravity Bulksender', {
+			new Notification('Bulk Email Sender', {
 				body: 'Success! Push notifications are now configured.'
 			});
 		} else {
@@ -71,9 +71,10 @@
 			<p class="text-xs text-slate-500 leading-relaxed">Sends campaign summary logs and finished reports directly to your inbox upon campaign completions.</p>
 
 			<div class="space-y-3 pt-2">
-				<label class="block text-xs font-semibold text-slate-600">Test Email Address</label>
+				<label for="test-email" class="block text-xs font-semibold text-slate-600">Test Email Address</label>
 				<div class="flex gap-2">
 					<input 
+						id="test-email"
 						type="email" 
 						bind:value={testEmail}
 						placeholder="receiver@example.com"

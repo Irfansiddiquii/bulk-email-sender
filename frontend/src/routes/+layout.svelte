@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { authStore } from '$lib/stores/authStore';
 	import { toastStore } from '$lib/stores/toastStore';
+	import Toast from '$lib/components/layout/Toast.svelte';
 	import '../app.css';
 
 	let loading = true;
@@ -16,10 +17,14 @@
 </script>
 
 {#if loading}
-	<div class="fixed inset-0 flex items-center justify-center bg-slate-50">
-		<div class="flex flex-col items-center">
-			<div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-			<p class="mt-4 text-slate-500 font-medium animate-pulse">Initializing Application...</p>
+	<div class="fixed inset-0 flex items-center justify-center bg-slate-50 relative overflow-hidden font-sans">
+		<div class="absolute inset-0 pointer-events-none opacity-30 select-none z-0">
+			<div class="absolute -top-[40%] -left-[20%] w-[80%] h-[80%] rounded-full bg-gradient-to-tr from-primary/10 to-transparent blur-[120px]"></div>
+			<div class="absolute -top-[30%] -right-[10%] w-[60%] h-[60%] rounded-full bg-gradient-to-tl from-secondary/10 to-transparent blur-[120px]"></div>
+		</div>
+		<div class="flex flex-col items-center relative z-10 select-none">
+			<div class="w-12 h-12 rounded-full border-4 border-slate-100 border-t-primary animate-spin"></div>
+			<p class="mt-4 text-slate-500 text-sm font-semibold uppercase tracking-wider animate-pulse">Initializing Application...</p>
 		</div>
 	</div>
 {:else}
@@ -27,28 +32,4 @@
 {/if}
 
 <!-- Toast Notifications Container -->
-<div class="fixed top-5 right-5 z-[9999] flex flex-col gap-2 max-w-sm w-full">
-	{#each $toastStore as toast (toast.id)}
-		<div 
-			class="p-4 rounded-xl shadow-lg border text-white flex items-start gap-3 transition-all duration-300 transform translate-y-0"
-			class:bg-emerald-600={toast.type === 'success'}
-			class:border-emerald-700={toast.type === 'success'}
-			class:bg-rose-600={toast.type === 'danger'}
-			class:border-rose-700={toast.type === 'danger'}
-			class:bg-blue-600={toast.type === 'info'}
-			class:border-blue-700={toast.type === 'info'}
-			class:bg-amber-500={toast.type === 'warning'}
-			class:border-amber-600={toast.type === 'warning'}
-		>
-			<div class="flex-grow text-sm font-medium">
-				{toast.message}
-			</div>
-			<button 
-				class="text-white hover:text-slate-200 transition-colors"
-				on:click={() => toastStore.dismiss(toast.id)}
-			>
-				✕
-			</button>
-		</div>
-	{/each}
-</div>
+<Toast />

@@ -17,6 +17,9 @@ export const toastStore = {
 			toasts.update(t => t.filter(x => x.id !== id));
 		}, 5000);
 	},
+	dismiss: (id: string) => {
+		toasts.update(t => t.filter(x => x.id !== id));
+	},
 	success: (message: string) => toastStore.show('success', message),
 	danger: (message: string) => toastStore.show('danger', message),
 	info: (message: string) => toastStore.show('info', message),

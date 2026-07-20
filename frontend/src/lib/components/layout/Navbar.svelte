@@ -3,6 +3,8 @@
 	import { authStore } from '$lib/stores/authStore';
 	import { toastStore } from '$lib/stores/toastStore';
 	import { goto } from '$app/navigation';
+	import { fade, slide } from 'svelte/transition';
+	import { cubicOut } from 'svelte/easing';
 	import { 
 		Mail, LayoutDashboard, Send, History, Users, FileText, 
 		Calendar, Bell, Settings, User, LogOut, Menu, X 
@@ -33,57 +35,74 @@
 	}
 </script>
 
-<header class="md:hidden bg-slate-900 text-white flex items-center justify-between p-4 shadow-md z-50 shrink-0">
-	<div class="flex items-center gap-2">
-		<Mail class="w-6 h-6 text-primary" />
-		<span class="font-bold text-lg">Antigravity</span>
+<header class="md:hidden bg-[#090d16] text-white flex items-center justify-between px-5 py-4 border-b border-slate-900 sticky top-0 z-50 shadow-lg shrink-0">
+	<div class="flex items-center gap-2.5">
+		<div class="p-1.5 bg-gradient-to-tr from-primary to-secondary rounded-lg flex items-center justify-center">
+			<Mail class="w-4.5 h-4.5 text-white" />
+		</div>
+		<span class="font-bold text-base tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-200 bg-clip-text text-transparent">Bulk Email Sender</span>
 	</div>
 	<button 
 		on:click={() => mobileMenuOpen = !mobileMenuOpen}
-		class="p-2 hover:bg-slate-800 rounded-lg transition-colors"
+		class="p-2 hover:bg-slate-900 border border-transparent hover:border-slate-800 rounded-xl transition-all duration-300 active:scale-90"
+		aria-label="Toggle Menu"
 	>
 		{#if mobileMenuOpen}
-			<X class="w-6 h-6" />
+			<X class="w-5 h-5 text-slate-300" />
 		{:else}
-			<Menu class="w-6 h-6" />
+			<Menu class="w-5 h-5 text-slate-300" />
 		{/if}
 	</button>
 </header>
 
 {#if mobileMenuOpen}
-	<div class="md:hidden fixed inset-0 top-[60px] bg-slate-900/95 backdrop-blur-sm z-40 flex flex-col p-6 space-y-6 overflow-y-auto">
-		<nav class="space-y-2 flex-grow">
+	<!-- Overlay backdrop -->
+	<div 
+		transition:fade={{ duration: 250 }} 
+		class="md:hidden fixed inset-0 top-[57px] bg-[#090d16]/40 backdrop-blur-md z-40"
+		on:click={() => mobileMenuOpen = false}
+	></div>
+
+	<!-- Menu content -->
+	<div 
+		transition:slide={{ duration: 300, easing: cubicOut }}
+		class="md:hidden fixed top-[57px] left-0 right-0 max-h-[calc(100vh-57px)] bg-[#090d16] border-b border-slate-900 z-50 flex flex-col p-6 space-y-6 overflow-y-auto shadow-2xl"
+	>
+		<nav class="space-y-1.5 flex-grow">
 			{#each menuItems as item}
+				{@const isActive = $page.url.pathname === item.path}
 				<a 
 					href={item.path}
 					on:click={() => mobileMenuOpen = false}
-					class="flex items-center gap-4 p-4 rounded-xl font-bold text-base transition-colors"
-					class:bg-primary={($page.url.pathname === item.path)}
-					class:text-white={($page.url.pathname === item.path)}
-					class:text-slate-400={($page.url.pathname !== item.path)}
-					class:hover:bg-slate-800={($page.url.pathname !== item.path)}
+					class="flex items-center gap-3.5 p-3 rounded-xl font-semibold text-xs tracking-wide uppercase transition-all duration-200"
+					class:bg-gradient-to-r={isActive}
+					class:from-primary={isActive}
+					class:to-primary-light={isActive}
+					class:text-white={isActive}
+					class:text-slate-400={!isActive}
+					class:hover:bg-slate-900={!isActive}
 				>
-					<svelte:component this={item.icon} class="w-6 h-6" />
-					{item.name}
+					<svelte:component this={item.icon} class="w-4.5 h-4.5" />
+					<span>{item.name}</span>
 				</a>
 			{/each}
 		</nav>
 		{#if $authStore.user}
-			<div class="border-t border-slate-800 pt-6 flex items-center justify-between">
-				<div class="flex items-center gap-3">
-					<div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center">
-						<User class="w-5 h-5 text-slate-300" />
+			<div class="border-t border-slate-900/80 pt-5 flex items-center justify-between gap-3">
+				<div class="flex items-center gap-3 min-w-0">
+					<div class="w-9 h-9 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center shrink-0">
+						<User class="w-4.5 h-4.5 text-slate-400" />
 					</div>
-					<div>
-						<p class="font-bold text-sm text-slate-200">{$authStore.user.name}</p>
-						<p class="text-xs text-slate-500">{$authStore.user.email}</p>
+					<div class="min-w-0">
+						<p class="font-bold text-xs text-slate-200 truncate leading-tight">{$authStore.user.name}</p>
+						<p class="text-[10px] text-slate-500 truncate mt-0.5 font-medium">{$authStore.user.email}</p>
 					</div>
 				</div>
 				<button 
 					on:click={() => { mobileMenuOpen = false; handleLogout(); }}
-					class="flex items-center gap-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 px-4 py-2.5 rounded-xl font-semibold text-sm transition-colors"
+					class="flex items-center gap-2 bg-rose-500/10 hover:bg-rose-500/20 active:scale-95 text-rose-400 border border-rose-500/10 px-4 py-2.5 rounded-xl font-semibold text-xs transition-all uppercase tracking-wider shrink-0"
 				>
-					<LogOut class="w-4 h-4" />
+					<LogOut class="w-3.5 h-3.5" />
 					Logout
 				</button>
 			</div>

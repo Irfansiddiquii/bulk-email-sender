@@ -385,9 +385,10 @@
 
 					<!-- Delay between emails -->
 					<div>
-						<label class="block text-sm font-semibold text-slate-700 mb-2">Delay between emails (seconds)</label>
+						<label for="delay-slider" class="block text-sm font-semibold text-slate-700 mb-2">Delay between emails (seconds)</label>
 						<div class="flex items-center gap-3">
 							<input 
+								id="delay-slider"
 								type="range" 
 								min="5" 
 								max="120" 
@@ -416,8 +417,9 @@
 						{#if useBatch}
 							<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-100">
 								<div>
-									<label class="block text-[11px] font-bold text-slate-400 uppercase mb-1.5">Batch Size</label>
+									<label for="batch-size" class="block text-[11px] font-bold text-slate-400 uppercase mb-1.5">Batch Size</label>
 									<input 
+										id="batch-size"
 										type="number" 
 										bind:value={batchSize}
 										min="1"
@@ -425,8 +427,9 @@
 									/>
 								</div>
 								<div>
-									<label class="block text-[11px] font-bold text-slate-400 uppercase mb-1.5">Batch Delay (min)</label>
+									<label for="batch-delay" class="block text-[11px] font-bold text-slate-400 uppercase mb-1.5">Batch Delay (min)</label>
 									<input 
+										id="batch-delay"
 										type="number" 
 										bind:value={batchDelay}
 										min="1"
@@ -434,8 +437,9 @@
 									/>
 								</div>
 								<div>
-									<label class="block text-[11px] font-bold text-slate-400 uppercase mb-1.5">Item Delay (sec)</label>
+									<label for="email-delay" class="block text-[11px] font-bold text-slate-400 uppercase mb-1.5">Item Delay (sec)</label>
 									<input 
+										id="email-delay"
 										type="number" 
 										bind:value={emailDelay}
 										min="1"
@@ -463,8 +467,9 @@
 						{#if scheduleEmail}
 							<div class="bg-slate-50 p-4 rounded-xl border border-slate-100 space-y-4">
 								<div>
-									<label class="block text-sm font-semibold text-slate-700 mb-2">Schedule Time (Local Time)</label>
+									<label for="scheduled-time" class="block text-sm font-semibold text-slate-700 mb-2">Schedule Time (Local Time)</label>
 									<input 
+										id="scheduled-time"
 										type="datetime-local" 
 										bind:value={scheduledTime}
 										class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none"
@@ -473,9 +478,10 @@
 
 								<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
 									<div>
-										<label class="block text-sm font-semibold text-slate-700 mb-2">Notification Email</label>
+										<label for="notify-email" class="block text-sm font-semibold text-slate-700 mb-2">Notification Email</label>
 										<div class="relative">
 											<input 
+												id="notify-email"
 												type="email" 
 												bind:value={notifyEmail}
 												placeholder="notify@example.com"
@@ -612,10 +618,12 @@
 							{#if rangeType === 'first_n'}
 								<div class="pl-6">
 									<input 
+										id="first-n-count"
 										type="number" 
 										bind:value={firstNCount}
 										min="1"
 										max={totalContacts}
+										aria-label="First N contacts"
 										class="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm"
 									/>
 								</div>
@@ -636,8 +644,9 @@
 							{#if rangeType === 'custom'}
 								<div class="grid grid-cols-2 gap-2 pl-6">
 									<div>
-										<label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">From Row</label>
+										<label for="range-from" class="block text-[10px] font-bold text-slate-400 uppercase mb-1">From Row</label>
 										<input 
+											id="range-from"
 											type="number" 
 											bind:value={rangeFrom}
 											min="1"
@@ -646,8 +655,9 @@
 										/>
 									</div>
 									<div>
-										<label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">To Row</label>
+										<label for="range-to" class="block text-[10px] font-bold text-slate-400 uppercase mb-1">To Row</label>
 										<input 
+											id="range-to"
 											type="number" 
 											bind:value={rangeTo}
 											min="1"

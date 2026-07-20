@@ -295,8 +295,9 @@
 	<div class="space-y-4">
 		<!-- Name config -->
 		<div>
-			<label class="block text-sm font-semibold text-slate-700 mb-2">Configuration Name *</label>
+			<label for="config-name" class="block text-sm font-semibold text-slate-700 mb-2">Configuration Name *</label>
 			<input 
+				id="config-name"
 				type="text" 
 				bind:value={name} 
 				placeholder="e.g. Workspace Account, Gmail Marketing"
@@ -308,8 +309,9 @@
 		<!-- Host & Port -->
 		<div class="grid grid-cols-3 gap-4">
 			<div class="col-span-2">
-				<label class="block text-sm font-semibold text-slate-700 mb-2">SMTP Host *</label>
+				<label for="smtp-host" class="block text-sm font-semibold text-slate-700 mb-2">SMTP Host *</label>
 				<input 
+					id="smtp-host"
 					type="text" 
 					bind:value={host} 
 					placeholder="smtp.gmail.com"
@@ -318,8 +320,9 @@
 				/>
 			</div>
 			<div>
-				<label class="block text-sm font-semibold text-slate-700 mb-2">Port *</label>
+				<label for="smtp-port" class="block text-sm font-semibold text-slate-700 mb-2">Port *</label>
 				<input 
+					id="smtp-port"
 					type="number" 
 					bind:value={port} 
 					class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm"
@@ -342,8 +345,9 @@
 		<!-- Username & Password -->
 		<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 			<div>
-				<label class="block text-sm font-semibold text-slate-700 mb-2">SMTP User (Username/Email) *</label>
+				<label for="smtp-user" class="block text-sm font-semibold text-slate-700 mb-2">SMTP User (Username/Email) *</label>
 				<input 
+					id="smtp-user"
 					type="text" 
 					bind:value={user} 
 					placeholder="user@example.com"
@@ -352,12 +356,13 @@
 				/>
 			</div>
 			<div>
-				<label class="block text-sm font-semibold text-slate-700 mb-2">
+				<label for="smtp-pass" class="block text-sm font-semibold text-slate-700 mb-2">
 					SMTP Password {editMode ? '(Leave blank to keep existing)' : '*'}
 				</label>
 				<div class="relative">
 					{#if showPassword}
 						<input 
+							id="smtp-pass"
 							type="text" 
 							bind:value={pass} 
 							placeholder={editMode ? '••••••••' : 'Enter password'}
@@ -366,6 +371,7 @@
 						/>
 					{:else}
 						<input 
+							id="smtp-pass"
 							type="password" 
 							bind:value={pass} 
 							placeholder={editMode ? '••••••••' : 'Enter password'}
@@ -407,8 +413,9 @@
 		<!-- From Email & From Name -->
 		<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 			<div>
-				<label class="block text-sm font-semibold text-slate-700 mb-2">From Email (Display Sender Address) *</label>
+				<label for="from-email" class="block text-sm font-semibold text-slate-700 mb-2">From Email (Display Sender Address) *</label>
 				<input 
+					id="from-email"
 					type="email" 
 					bind:value={fromEmail} 
 					placeholder="marketing@example.com"
@@ -417,8 +424,9 @@
 				/>
 			</div>
 			<div>
-				<label class="block text-sm font-semibold text-slate-700 mb-2">From Name (Display Sender Name)</label>
+				<label for="from-name" class="block text-sm font-semibold text-slate-700 mb-2">From Name (Display Sender Name)</label>
 				<input 
+					id="from-name"
 					type="text" 
 					bind:value={fromName} 
 					placeholder="e.g. Sales Team"

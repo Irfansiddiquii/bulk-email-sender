@@ -21,7 +21,20 @@
 		try {
 			const res = await reportApi.getReports();
 			if (res.data.success) {
-				logs = res.data.data.logs || [];
+				logs = (res.data.data.logs || []).map((log: any) => {
+					let message = log.message;
+					if (!message) {
+						if (log.status === 'Sent') {
+							message = `Email successfully sent to ${log.email} (MsgID: ${log.messageId || 'N/A'})`;
+						} else {
+							message = `${log.status} status for ${log.email}`;
+						}
+					}
+					return {
+						...log,
+						message
+					};
+				});
 			}
 		} catch (err) {
 			console.error('Error fetching history:', err);
@@ -60,7 +73,11 @@
 		                      log.message?.toLowerCase().includes(searchFilter.toLowerCase());
 
 		if (statusFilter === 'ALL') return matchesSearch;
-		return matchesSearch && log.status?.toUpperCase() === statusFilter;
+		const logStatus = log.status?.toUpperCase();
+		if (statusFilter === 'SUCCESS') {
+			return matchesSearch && (logStatus === 'SUCCESS' || logStatus === 'SENT');
+		}
+		return matchesSearch && logStatus === statusFilter;
 	});
 
 	$: totalPages = Math.ceil(filteredLogs.length / itemsPerPage) || 1;
@@ -117,6 +134,7 @@
 				<input 
 					type="text" 
 					bind:value={searchFilter} 
+					aria-label="Search history logs"
 					placeholder="Search history by recipient, subject, or campaign keyword..."
 					class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 bg-white"
 				/>
@@ -125,6 +143,7 @@
 			<div>
 				<select 
 					bind:value={statusFilter}
+					aria-label="Filter by status"
 					class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 bg-white text-slate-700 font-semibold"
 				>
 					<option value="ALL">All Statuses</option>
