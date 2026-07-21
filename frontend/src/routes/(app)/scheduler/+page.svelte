@@ -55,6 +55,12 @@
 	let showSmtpDropdown = false;
 	let showDatePickerPopover = false;
 
+	// Custom Date Picker Menu States (No native select elements)
+	let showMonthMenu = false;
+	let showYearMenu = false;
+	let showHourMenu = false;
+	let showMinuteMenu = false;
+
 	// Custom Premium Calendar & Time Picker State
 	let calendarMonth = new Date().getMonth();
 	let calendarYear = new Date().getFullYear();
@@ -140,6 +146,11 @@
 		h = h % 12;
 		selectedHour = h === 0 ? 12 : h;
 		selectedMinute = Math.floor(target.getMinutes() / 5) * 5;
+
+		showMonthMenu = false;
+		showYearMenu = false;
+		showHourMenu = false;
+		showMinuteMenu = false;
 	}
 
 	// Compute ISO scheduledTime string from selectedDate and time controls
@@ -861,26 +872,64 @@
 												<ChevronLeft class="w-3.5 h-3.5" />
 											</button>
 
-											<!-- Direct Month Selector -->
-											<select
-												bind:value={calendarMonth}
-												class="px-2 py-1 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 cursor-pointer shadow-2xs"
-											>
-												{#each monthNames as mName, idx}
-													<option value={idx}>{mName}</option>
-												{/each}
-											</select>
+											<!-- Custom Premium Month Floating Dropdown -->
+											<div class="relative" use:clickOutside={() => (showMonthMenu = false)}>
+												<button
+													type="button"
+													on:click={() => { showMonthMenu = !showMonthMenu; showYearMenu = false; }}
+													class="px-2.5 py-1.5 bg-slate-50 hover:bg-slate-100 active:bg-slate-200 border border-slate-200/90 rounded-xl text-xs font-bold text-slate-800 transition-all flex items-center gap-1.5 shadow-2xs group"
+												>
+													<span>{monthNames[calendarMonth]}</span>
+													<ChevronDown class="w-3.5 h-3.5 text-slate-400 group-hover:text-indigo-600 transition-transform duration-200 {showMonthMenu ? 'rotate-180 text-indigo-600' : ''}" />
+												</button>
 
-											<!-- Direct Year Selector -->
-											<select
-												bind:value={calendarYear}
-												class="px-2 py-1 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 cursor-pointer shadow-2xs"
-											>
-												{#each Array(12) as _, yIdx}
-													{@const y = 2024 + yIdx}
-													<option value={y}>{y}</option>
-												{/each}
-											</select>
+												{#if showMonthMenu}
+													<div class="absolute left-0 top-full mt-1.5 w-36 bg-white/95 backdrop-blur-2xl border border-slate-200/90 rounded-2xl shadow-2xl p-1.5 z-50 max-h-56 overflow-y-auto space-y-1 animate-in fade-in zoom-in-95 duration-150">
+														{#each monthNames as mName, idx}
+															<button
+																type="button"
+																on:click={() => { calendarMonth = idx; showMonthMenu = false; }}
+																class="w-full px-3 py-1.5 rounded-xl text-left text-xs transition-all flex items-center justify-between {calendarMonth === idx ? 'bg-indigo-50/80 text-indigo-900 font-bold border border-indigo-100' : 'hover:bg-slate-50 font-medium text-slate-700'}"
+															>
+																<span>{mName}</span>
+																{#if calendarMonth === idx}
+																	<Check class="w-3.5 h-3.5 text-indigo-600 shrink-0" />
+																{/if}
+															</button>
+														{/each}
+													</div>
+												{/if}
+											</div>
+
+											<!-- Custom Premium Year Floating Dropdown -->
+											<div class="relative" use:clickOutside={() => (showYearMenu = false)}>
+												<button
+													type="button"
+													on:click={() => { showYearMenu = !showYearMenu; showMonthMenu = false; }}
+													class="px-2.5 py-1.5 bg-slate-50 hover:bg-slate-100 active:bg-slate-200 border border-slate-200/90 rounded-xl text-xs font-bold text-slate-800 transition-all flex items-center gap-1.5 shadow-2xs group"
+												>
+													<span>{calendarYear}</span>
+													<ChevronDown class="w-3.5 h-3.5 text-slate-400 group-hover:text-indigo-600 transition-transform duration-200 {showYearMenu ? 'rotate-180 text-indigo-600' : ''}" />
+												</button>
+
+												{#if showYearMenu}
+													<div class="absolute left-0 top-full mt-1.5 w-28 bg-white/95 backdrop-blur-2xl border border-slate-200/90 rounded-2xl shadow-2xl p-1.5 z-50 max-h-56 overflow-y-auto space-y-1 animate-in fade-in zoom-in-95 duration-150">
+														{#each Array(12) as _, yIdx}
+															{@const y = 2024 + yIdx}
+															<button
+																type="button"
+																on:click={() => { calendarYear = y; showYearMenu = false; }}
+																class="w-full px-3 py-1.5 rounded-xl text-left text-xs transition-all flex items-center justify-between {calendarYear === y ? 'bg-indigo-50/80 text-indigo-900 font-bold border border-indigo-100' : 'hover:bg-slate-50 font-medium text-slate-700'}"
+															>
+																<span>{y}</span>
+																{#if calendarYear === y}
+																	<Check class="w-3.5 h-3.5 text-indigo-600 shrink-0" />
+																{/if}
+															</button>
+														{/each}
+													</div>
+												{/if}
+											</div>
 
 											<button
 												type="button"
@@ -947,25 +996,66 @@
 									<div class="flex items-center justify-between gap-2 pt-3 border-t border-slate-100 bg-slate-50/70 p-2.5 rounded-xl border border-slate-200/60 shadow-2xs">
 										<div class="flex items-center gap-1.5">
 											<Clock class="w-3.5 h-3.5 text-indigo-500 shrink-0" />
-											<!-- Hour Stepper -->
-											<select
-												bind:value={selectedHour}
-												class="px-2 py-1 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-800 focus:outline-none cursor-pointer"
-											>
-												{#each Array(12) as _, h}
-													<option value={h + 1}>{String(h + 1).padStart(2, "0")}</option>
-												{/each}
-											</select>
+
+											<!-- Custom Hour Dropdown -->
+											<div class="relative" use:clickOutside={() => (showHourMenu = false)}>
+												<button
+													type="button"
+													on:click={() => { showHourMenu = !showHourMenu; showMinuteMenu = false; }}
+													class="px-2 py-1 bg-white hover:bg-slate-50 border border-slate-200/90 rounded-lg text-xs font-bold text-slate-800 shadow-2xs transition-all flex items-center gap-1 group"
+												>
+													<span>{String(selectedHour).padStart(2, "0")}</span>
+													<ChevronDown class="w-3 h-3 text-slate-400 group-hover:text-indigo-600 transition-transform duration-200 {showHourMenu ? 'rotate-180 text-indigo-600' : ''}" />
+												</button>
+												{#if showHourMenu}
+													<div class="absolute bottom-full mb-1.5 left-0 w-20 bg-white/95 backdrop-blur-2xl border border-slate-200/90 rounded-xl shadow-2xl p-1 z-50 max-h-48 overflow-y-auto space-y-0.5 animate-in fade-in zoom-in-95 duration-150">
+														{#each Array(12) as _, h}
+															{@const val = h + 1}
+															<button
+																type="button"
+																on:click={() => { selectedHour = val; showHourMenu = false; }}
+																class="w-full px-2 py-1 rounded-lg text-left text-xs font-semibold transition-all flex items-center justify-between {selectedHour === val ? 'bg-indigo-50 text-indigo-900 font-bold' : 'hover:bg-slate-50 text-slate-700'}"
+															>
+																<span>{String(val).padStart(2, "0")}</span>
+																{#if selectedHour === val}
+																	<span class="w-1.5 h-1.5 rounded-full bg-indigo-600 shrink-0"></span>
+																{/if}
+															</button>
+														{/each}
+													</div>
+												{/if}
+											</div>
+
 											<span class="text-xs font-bold text-slate-400">:</span>
-											<!-- Minute Stepper -->
-											<select
-												bind:value={selectedMinute}
-												class="px-2 py-1 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-800 focus:outline-none cursor-pointer"
-											>
-												{#each [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55] as m}
-													<option value={m}>{String(m).padStart(2, "0")}</option>
-												{/each}
-											</select>
+
+											<!-- Custom Minute Dropdown -->
+											<div class="relative" use:clickOutside={() => (showMinuteMenu = false)}>
+												<button
+													type="button"
+													on:click={() => { showMinuteMenu = !showMinuteMenu; showHourMenu = false; }}
+													class="px-2 py-1 bg-white hover:bg-slate-50 border border-slate-200/90 rounded-lg text-xs font-bold text-slate-800 shadow-2xs transition-all flex items-center gap-1 group"
+												>
+													<span>{String(selectedMinute).padStart(2, "0")}</span>
+													<ChevronDown class="w-3 h-3 text-slate-400 group-hover:text-indigo-600 transition-transform duration-200 {showMinuteMenu ? 'rotate-180 text-indigo-600' : ''}" />
+												</button>
+												{#if showMinuteMenu}
+													<div class="absolute bottom-full mb-1.5 left-0 w-20 bg-white/95 backdrop-blur-2xl border border-slate-200/90 rounded-xl shadow-2xl p-1 z-50 max-h-48 overflow-y-auto space-y-0.5 animate-in fade-in zoom-in-95 duration-150">
+														{#each [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55] as m}
+															<button
+																type="button"
+																on:click={() => { selectedMinute = m; showMinuteMenu = false; }}
+																class="w-full px-2 py-1 rounded-lg text-left text-xs font-semibold transition-all flex items-center justify-between {selectedMinute === m ? 'bg-indigo-50 text-indigo-900 font-bold' : 'hover:bg-slate-50 text-slate-700'}"
+															>
+																<span>{String(m).padStart(2, "0")}</span>
+																{#if selectedMinute === m}
+																	<span class="w-1.5 h-1.5 rounded-full bg-indigo-600 shrink-0"></span>
+																{/if}
+															</button>
+														{/each}
+													</div>
+												{/if}
+											</div>
+
 											<!-- AM/PM Toggle -->
 											<button
 												type="button"
