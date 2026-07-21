@@ -10,14 +10,20 @@
 		Edit2,
 		Search,
 		X,
-		Check,
 		Save,
+		Mail,
+		Sparkles,
+		Tag,
+		LayoutTemplate,
+		Code2,
+		ChevronRight
 	} from "lucide-svelte";
 
 	let templates: any[] = [];
 	let searchFilter = "";
 	let showEditor = false;
 	let editMode = false;
+	let searchInputEl: HTMLInputElement;
 
 	// Template Editor state
 	let templateId = "";
@@ -121,6 +127,27 @@
 		}
 	}
 
+	function handleKeydown(e: KeyboardEvent) {
+		if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+			e.preventDefault();
+			searchInputEl?.focus();
+		} else if (e.key === "Escape" && showEditor) {
+			showEditor = false;
+		}
+	}
+
+	function extractVariables(text: string): string[] {
+		if (!text) return [];
+		const matches = text.match(/\{\{([^}]+)\}\}/g);
+		if (!matches) return [];
+		return Array.from(new Set(matches.map((m) => m.replace(/[\{\}]/g, "").trim())));
+	}
+
+	function stripHtml(html: string): string {
+		if (!html) return "";
+		return html.replace(/<[^>]*>?/gm, "").trim();
+	}
+
 	$: filteredTemplates = templates.filter((t) => {
 		const query = searchFilter.toLowerCase();
 		return (
@@ -131,189 +158,312 @@
 	});
 </script>
 
-<div class="space-y-6 sm:space-y-8 w-full">
+<svelte:window on:keydown={handleKeydown} />
+
+<div class="space-y-6 w-full max-w-7xl mx-auto pb-12">
 	<!-- Page Header -->
-	<div
-		class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"
-	>
-		<Header
-			title="Campaign Email Templates"
-			subtitle="Draft, edit, and select HTML email designs for campaign dispatches"
-		/>
-		{#if !showEditor}
-			<button
-				on:click={openCreateForm}
-				class="bg-primary hover:bg-primary-dark text-white font-bold px-5 py-3 rounded-xl transition-all duration-200 shadow-md shadow-primary/10 flex items-center gap-2 text-sm"
-			>
-				<Plus class="w-4 h-4" />
-				New Template
-			</button>
-		{/if}
+	<Header
+		title="Campaign Email Templates"
+		subtitle="Draft, edit, and select HTML email designs for campaign dispatches"
+	/>
+
+	<!-- Single Premium Unified Toolbar (Doppelrand / Double-Bezel Enclosure) -->
+	<div class="p-1.5 rounded-[1.5rem] bg-slate-900/[0.03] border border-slate-200/80 shadow-xs mb-8 backdrop-blur-xl">
+		<div
+			class="bg-white rounded-[calc(1.5rem-0.375rem)] p-3 sm:p-3.5 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 sm:gap-4 shadow-2xs relative z-20"
+		>
+			<!-- Search Field with Nested Icon Shell & Double Bezel -->
+			<div class="relative flex-1 min-w-[240px] max-w-2xl group">
+				<div class="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg bg-indigo-50/80 border border-indigo-100/80 text-indigo-600 flex items-center justify-center shrink-0 group-focus-within:bg-indigo-600 group-focus-within:text-white group-focus-within:border-indigo-600 transition-all duration-200 shadow-2xs pointer-events-none">
+					<Search class="w-4 h-4" />
+				</div>
+				<input
+					type="text"
+					bind:this={searchInputEl}
+					bind:value={searchFilter}
+					aria-label="Search templates"
+					placeholder="Search templates by title, subject lines, or keyword content..."
+					class="w-full pl-12 pr-24 py-2.5 bg-slate-50/70 hover:bg-slate-50 focus:bg-white border border-slate-200/80 focus:border-indigo-500 rounded-xl text-sm font-medium text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/12 transition-all duration-200 shadow-inner/5"
+				/>
+				<div class="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5 pointer-events-auto">
+					{#if searchFilter}
+						<button
+							on:click={() => (searchFilter = "")}
+							aria-label="Clear search"
+							class="p-1 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-200/60 transition-colors"
+						>
+							<X class="w-3.5 h-3.5" />
+						</button>
+					{/if}
+					<kbd
+						class="hidden sm:inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-mono text-slate-400 bg-white border border-slate-200/80 shadow-2xs pointer-events-none"
+					>
+						⌘K
+					</kbd>
+				</div>
+			</div>
+
+			<!-- Toolbar Meta & New Template Primary CTA -->
+			<div class="flex items-center justify-between sm:justify-end gap-3 shrink-0">
+				<!-- High-End Stats Counter Pill -->
+				<div
+					class="inline-flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-gradient-to-b from-slate-50 to-slate-100/90 border border-slate-200/80 text-xs font-semibold text-slate-700 shadow-2xs select-none"
+				>
+					<span class="relative flex h-2 w-2">
+						<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+						<span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-600"></span>
+					</span>
+					<span class="font-mono text-indigo-600 font-bold bg-indigo-50 border border-indigo-100/80 px-2 py-0.5 rounded-md text-[11px] shadow-2xs">
+						{filteredTemplates.length}
+					</span>
+					<span class="text-slate-600 font-medium hidden xs:inline">
+						{filteredTemplates.length === 1 ? "Template" : "Templates"}
+					</span>
+				</div>
+
+				{#if !showEditor}
+					<!-- Button-in-Button Island Architecture CTA -->
+					<button
+						on:click={openCreateForm}
+						class="relative group overflow-hidden bg-slate-900 hover:bg-slate-800 text-white font-semibold pl-4 pr-2.5 py-2 rounded-xl text-xs sm:text-sm shadow-md shadow-slate-900/10 hover:shadow-xl hover:shadow-indigo-500/15 active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2.5 shrink-0"
+					>
+						<span class="tracking-tight text-white font-semibold">New Template</span>
+						<div class="w-7 h-7 rounded-lg bg-white/10 border border-white/10 text-white flex items-center justify-center shrink-0 group-hover:bg-indigo-500 group-hover:border-indigo-400 group-hover:scale-105 transition-all duration-200 shadow-2xs">
+							<Plus class="w-4 h-4 text-white group-hover:rotate-90 transition-transform duration-300" />
+						</div>
+					</button>
+				{/if}
+			</div>
+		</div>
 	</div>
 
 	{#if showEditor}
 		<!-- Template editor form -->
 		<div
-			class="bg-white border border-slate-200/60 p-6 rounded-2xl shadow-sm space-y-4"
+			class="p-1.5 rounded-[1.75rem] bg-slate-900/[0.03] border border-slate-200/80 shadow-lg mb-8 backdrop-blur-xl animate-in fade-in slide-in-from-top-4 duration-300 relative z-10"
 		>
 			<div
-				class="flex justify-between items-center border-b border-slate-100 pb-3"
+				class="bg-white rounded-[calc(1.75rem-0.375rem)] p-6 md:p-8 space-y-6 relative overflow-hidden"
 			>
-				<h3 class="font-bold text-slate-800 text-base">
-					{editMode
-						? "Edit Template Settings"
-						: "Create Custom Template"}
-				</h3>
-				<button
-					on:click={() => (showEditor = false)}
-					class="p-1.5 hover:bg-slate-200 rounded-lg text-slate-400"
+				<div
+					class="flex justify-between items-center border-b border-slate-100 pb-4"
 				>
-					<X class="w-5 h-5" />
-				</button>
-			</div>
-
-			<div class="space-y-4">
-				<div>
-					<label
-						for="template-name"
-						class="block text-sm font-semibold text-slate-700 mb-2"
-						>Template Display Name *</label
+					<div class="flex items-center gap-3.5">
+						<div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-600 text-white flex items-center justify-center shadow-md shadow-indigo-500/20 shrink-0">
+							<Edit2 class="w-5 h-5" />
+						</div>
+						<div>
+							<div class="flex items-center gap-2.5">
+								<h3 class="font-bold text-slate-900 text-lg">
+									{editMode
+										? "Edit Template Settings"
+										: "Create Custom Template"}
+								</h3>
+								<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold uppercase tracking-wider bg-indigo-50 text-indigo-700 border border-indigo-100">
+									<Sparkles class="w-3 h-3 text-indigo-600" />
+									{editMode ? "Editing Mode" : "New Template"}
+								</span>
+							</div>
+							<p class="text-xs text-slate-500 mt-0.5">Configure template display attributes and HTML markup body</p>
+						</div>
+					</div>
+					<button
+						on:click={() => (showEditor = false)}
+						aria-label="Close editor"
+						class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition-colors"
 					>
-					<input
-						id="template-name"
-						type="text"
-						bind:value={templateName}
-						placeholder="e.g. Autumn Discount Notice, Event Welcome"
-						class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
-					/>
+						<X class="w-4.5 h-4.5" />
+					</button>
 				</div>
 
-				<div>
-					<label
-						for="template-subject"
-						class="block text-sm font-semibold text-slate-700 mb-2"
-						>Default Email Subject *</label
-					>
-					<input
-						id="template-subject"
-						type="text"
-						bind:value={templateSubject}
-						placeholder={"e.g. Exclusive Offer inside, {{Name}}!"}
-						class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
-					/>
+				<div class="space-y-5">
+					<div>
+						<label
+							for="template-name"
+							class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2"
+						>
+							Template Display Name <span class="text-rose-500">*</span>
+						</label>
+						<input
+							id="template-name"
+							type="text"
+							bind:value={templateName}
+							placeholder="e.g. Autumn Discount Notice, Event Welcome"
+							class="w-full px-4 py-2.5 bg-slate-50/60 focus:bg-white rounded-xl border border-slate-200 text-sm font-medium text-slate-800 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all duration-200 shadow-inner/5"
+						/>
+					</div>
+
+					<div>
+						<label
+							for="template-subject"
+							class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2"
+						>
+							Default Email Subject <span class="text-rose-500">*</span>
+						</label>
+						<input
+							id="template-subject"
+							type="text"
+							bind:value={templateSubject}
+							placeholder={"e.g. Exclusive Offer inside, {{Name}}!"}
+							class="w-full px-4 py-2.5 bg-slate-50/60 focus:bg-white rounded-xl border border-slate-200 text-sm font-medium text-slate-800 focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all duration-200 shadow-inner/5"
+						/>
+						<p class="text-[11px] text-slate-400 mt-1">Use double curly braces like <code class="font-mono text-indigo-600 font-semibold">&#123;&#123;Name&#125;&#125;</code> for dynamic mail-merge fields.</p>
+					</div>
+
+					<div>
+						<label
+							class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2"
+						>
+							HTML Template Body
+						</label>
+						<div class="border border-slate-200/80 rounded-xl overflow-hidden shadow-2xs">
+							<EmailEditor bind:value={templateBody} />
+						</div>
+					</div>
 				</div>
 
-				<div>
-					<label
-						class="block text-sm font-semibold text-slate-700 mb-2"
-						>HTML Template Body</label
+				<div class="flex justify-end items-center gap-3 pt-4 border-t border-slate-100">
+					<button
+						type="button"
+						on:click={() => (showEditor = false)}
+						class="bg-white border border-slate-200 hover:bg-slate-50 active:bg-slate-100 text-slate-700 font-semibold px-4.5 py-2.5 rounded-xl text-sm transition-colors duration-150"
 					>
-					<EmailEditor bind:value={templateBody} />
+						Cancel
+					</button>
+					<button
+						type="button"
+						on:click={saveTemplate}
+						class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-5 py-2.5 rounded-xl text-sm shadow-md shadow-indigo-500/20 active:scale-[0.98] transition-all duration-150 flex items-center gap-2"
+					>
+						<Save class="w-4 h-4" />
+						<span>Save Template</span>
+					</button>
 				</div>
-			</div>
-
-			<div class="flex justify-end gap-2.5 pt-4">
-				<button
-					type="button"
-					on:click={() => (showEditor = false)}
-					class="bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold px-4 py-2.5 rounded-xl text-sm"
-				>
-					Cancel
-				</button>
-				<button
-					type="button"
-					on:click={saveTemplate}
-					class="bg-primary hover:bg-primary-dark text-white font-bold px-5 py-2.5 rounded-xl text-sm shadow-md shadow-primary/10 flex items-center gap-1.5"
-				>
-					<Save class="w-4 h-4" />
-					Save Template
-				</button>
 			</div>
 		</div>
 	{:else}
-		<!-- Search filter -->
-		<div class="relative">
-			<span
-				class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400"
-			>
-				<Search class="w-4 h-4" />
-			</span>
-			<input
-				type="text"
-				bind:value={searchFilter}
-				aria-label="Search templates"
-				placeholder="Search templates by title, subject lines, or keyword content..."
-				class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 bg-white"
-			/>
-		</div>
-
 		<!-- Grid cards list -->
 		{#if filteredTemplates.length === 0}
 			<div
-				class="bg-white border border-slate-100 rounded-2xl p-12 text-center shadow-sm"
+				class="bg-white/95 backdrop-blur-xl border border-slate-200/80 rounded-2xl p-12 text-center shadow-xs max-w-lg mx-auto my-8"
 			>
 				<div
-					class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-slate-100"
+					class="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-indigo-100/80 shadow-2xs"
 				>
-					<FileText class="w-8 h-8 text-slate-400" />
+					<FileText class="w-8 h-8" />
 				</div>
-				<h3 class="text-lg font-bold text-slate-800">
+				<h3 class="text-lg font-bold text-slate-900">
 					No Templates Found
 				</h3>
-				<p class="text-slate-500 text-sm mt-1 max-w-sm mx-auto">
-					Create and save templates to reuse them across sending
-					campaigns.
+				<p class="text-slate-500 text-sm mt-1.5 mb-6 max-w-sm mx-auto leading-relaxed">
+					{searchFilter
+						? `No templates match "${searchFilter}". Try adjusting your search query.`
+						: "Create and save reusable HTML templates to streamline your campaign mailings."}
 				</p>
+				<button
+					on:click={openCreateForm}
+					class="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white font-semibold px-5 py-2.5 rounded-xl text-sm shadow-md shadow-slate-900/10 active:scale-[0.98] transition-all"
+				>
+					<Plus class="w-4 h-4" />
+					<span>Create First Template</span>
+				</button>
 			</div>
 		{:else}
 			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 				{#each filteredTemplates as temp (temp.id)}
+					<!-- Doppelrand / Double Bezel Card Shell -->
 					<div
-						class="bg-white rounded-2xl border border-slate-200/60 p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between"
+						class="group relative bg-slate-50/70 p-1.5 rounded-[1.75rem] border border-slate-200/80 hover:border-indigo-300/80 shadow-2xs hover:shadow-2xl hover:shadow-indigo-500/12 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1.5 flex flex-col overflow-hidden"
 					>
-						<div>
-							<div
-								class="flex items-start justify-between gap-3 mb-3"
-							>
-								<h3
-									class="font-bold text-slate-800 text-base leading-snug line-clamp-1"
-								>
-									{temp.name}
-								</h3>
-								<div
-									class="p-1.5 bg-slate-50 rounded-lg text-slate-400 border border-slate-200/50"
-								>
-									<FileText class="w-4.5 h-4.5" />
-								</div>
-							</div>
-							<p
-								class="text-xs text-slate-400 font-semibold mb-1"
-							>
-								SUBJECT LINE:
-							</p>
-							<p
-								class="text-sm font-semibold text-slate-700 line-clamp-2 leading-relaxed mb-4"
-							>
-								{temp.subject}
-							</p>
-						</div>
+						<!-- Subtle Gradient Accent Hairline on Hover -->
+						<div
+							class="absolute top-0 left-6 right-6 h-[2px] bg-gradient-to-r from-transparent via-indigo-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
+						></div>
 
-						<div class="border-t border-slate-100 pt-4 flex gap-2">
-							<button
-								on:click={() => openEditForm(temp)}
-								class="flex-grow bg-slate-50 hover:bg-slate-100 text-slate-600 font-bold p-2.5 rounded-xl border border-slate-200/50 transition-colors flex items-center justify-center gap-1.5 text-xs"
-							>
-								<Edit2 class="w-3.5 h-3.5" />
-								Edit Content
-							</button>
-							<button
-								on:click={() =>
-									deleteTemplate(temp.id, temp.name)}
-								class="p-2.5 bg-rose-50 hover:bg-rose-100 border border-rose-100 text-rose-600 rounded-xl transition-all"
-								title="Delete Template"
-							>
-								<Trash2 class="w-4 h-4" />
-							</button>
+						<!-- Inner Concentric Card Core -->
+						<div
+							class="bg-white rounded-[calc(1.75rem-0.375rem)] p-5 sm:p-6 flex flex-col justify-between h-full border border-slate-100 space-y-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]"
+						>
+							<div>
+								<!-- Header of Card -->
+								<div class="flex items-start justify-between gap-3 mb-4">
+									<div class="flex items-center gap-3.5 min-w-0">
+										<div
+											class="w-11 h-11 rounded-2xl bg-gradient-to-br from-indigo-50 to-slate-50 border border-indigo-100/80 text-indigo-600 flex items-center justify-center shrink-0 group-hover:from-indigo-600 group-hover:to-violet-600 group-hover:text-white group-hover:border-indigo-500 transition-all duration-300 shadow-xs group-hover:shadow-md group-hover:shadow-indigo-500/25 flex-none"
+										>
+											<FileText class="w-5 h-5" />
+										</div>
+										<div class="min-w-0">
+											<h3
+												class="font-bold text-slate-900 text-base leading-snug group-hover:text-indigo-600 transition-colors truncate"
+												title={temp.name}
+											>
+												{temp.name}
+											</h3>
+											<span class="inline-flex items-center gap-1 text-[10px] font-semibold tracking-wider text-slate-400 uppercase bg-slate-100/80 border border-slate-200/60 px-2.5 py-0.5 rounded-lg mt-1">
+												<Code2 class="w-3 h-3 text-slate-400" />
+												HTML Template
+											</span>
+										</div>
+									</div>
+								</div>
+
+								<!-- Subject Line Box -->
+								<div class="mb-4">
+									<div class="flex items-center gap-1.5 text-[10px] font-bold tracking-wider text-slate-400 uppercase mb-1.5">
+										<Mail class="w-3.5 h-3.5 text-slate-400" />
+										<span>Subject Line</span>
+									</div>
+									<div
+										class="text-xs font-medium text-slate-700 bg-gradient-to-r from-slate-50 to-indigo-50/30 border-l-2 border-indigo-500 border-y border-r border-slate-200/60 rounded-r-xl p-3 line-clamp-2 leading-relaxed shadow-2xs"
+									>
+										{temp.subject}
+									</div>
+								</div>
+
+								<!-- Body Preview -->
+								{#if stripHtml(temp.body)}
+									<div class="mb-4">
+										<p class="text-xs text-slate-500 line-clamp-2 leading-relaxed font-normal bg-slate-50/40 p-2.5 rounded-xl border border-slate-100/80">
+											{stripHtml(temp.body)}
+										</p>
+									</div>
+								{/if}
+
+								<!-- Detected Dynamic Tag Variables -->
+								{#if extractVariables(temp.subject + " " + temp.body).length > 0}
+									<div class="flex flex-wrap items-center gap-1.5">
+										{#each extractVariables(temp.subject + " " + temp.body) as v}
+											<span
+												class="inline-flex items-center gap-1 text-[10px] font-mono font-semibold px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 border border-indigo-100/80 shadow-2xs hover:bg-indigo-100 transition-colors"
+											>
+												<Tag class="w-2.5 h-2.5 text-indigo-500" />
+												&#123;&#123;{v}&#125;&#125;
+											</span>
+										{/each}
+									</div>
+								{/if}
+							</div>
+
+							<!-- Action Footer -->
+							<div class="border-t border-slate-100 pt-4 flex items-center justify-between gap-2.5">
+								<button
+									on:click={() => openEditForm(temp)}
+									class="flex-1 bg-slate-900 hover:bg-indigo-600 text-white font-semibold py-2.5 px-4 rounded-xl border border-slate-800 hover:border-indigo-500 transition-all duration-200 flex items-center justify-center gap-2 text-xs shadow-sm shadow-slate-900/10 hover:shadow-md hover:shadow-indigo-500/20 group/edit active:scale-[0.98]"
+								>
+									<Edit2 class="w-3.5 h-3.5 text-white/70 group-hover/edit:text-white transition-colors" />
+									<span>Edit Content</span>
+									<ChevronRight class="w-3 h-3 text-white/50 group-hover/edit:text-white group-hover/edit:translate-x-0.5 transition-all" />
+								</button>
+								<button
+									on:click={() => deleteTemplate(temp.id, temp.name)}
+									title="Delete Template"
+									aria-label="Delete template {temp.name}"
+									class="w-10 h-10 bg-slate-50 hover:bg-rose-50 border border-slate-200/80 hover:border-rose-200 text-slate-400 hover:text-rose-600 rounded-xl transition-all duration-200 flex items-center justify-center shrink-0 shadow-2xs group/del active:scale-[0.95]"
+								>
+									<Trash2 class="w-4 h-4 transition-transform group-hover/del:scale-110" />
+								</button>
+							</div>
 						</div>
 					</div>
 				{/each}
