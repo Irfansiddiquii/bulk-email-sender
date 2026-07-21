@@ -18,6 +18,7 @@
 		RefreshCw,
 		BarChart2,
 	} from "lucide-svelte";
+	import type { BatchStatus, ScheduledJob } from "$lib/types";
 
 	let loading = true;
 	let initialLoaded = false;
@@ -41,21 +42,8 @@
 	};
 
 	// Data states
-	let batchStatus: {
-		isRunning: boolean;
-		isPaused: boolean;
-		total: number;
-		sent: number;
-		failed: number;
-		elapsedSeconds: number;
-		remainingSeconds?: number;
-		emailDelay: number;
-		batchSize: number;
-		batchDelay: number;
-		currentBatchCount?: number;
-	} | null = null;
-
-	let scheduledJobs: any[] = [];
+	let batchStatus: BatchStatus | null = null;
+	let scheduledJobs: ScheduledJob[] = [];
 	let lastUpdated = "";
 
 	onMount(async () => {

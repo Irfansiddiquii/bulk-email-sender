@@ -17,9 +17,10 @@
 		ChevronDown,
 		Check,
 	} from "lucide-svelte";
+	import type { ReportLog } from "$lib/types";
 
 	let loading = true;
-	let logs: any[] = [];
+	let logs: ReportLog[] = [];
 	let searchFilter = "";
 	let statusFilter = "ALL";
 	let currentPage = 1;

@@ -3,6 +3,7 @@
 	import { toastStore } from '$lib/stores/toastStore';
 	import { sendApi } from '$lib/api/send';
 	import Header from '$lib/components/layout/Header.svelte';
+	import type { Contact } from '$lib/types';
 	import { 
 		Users, 
 		Plus, 
@@ -20,7 +21,7 @@
 	} from 'lucide-svelte';
 
 	let loading = false;
-	let contacts: any[] = [];
+	let contacts: Contact[] = [];
 	let searchFilter = '';
 	
 	// Add form bindings

@@ -29,9 +29,10 @@
 		Settings,
 		Check
 	} from "lucide-svelte";
+	import type { ScheduledJob } from "$lib/types";
 
 	let loading = true;
-	let scheduledJobs: any[] = [];
+	let scheduledJobs: ScheduledJob[] = [];
 	let timer: NodeJS.Timeout | null = null;
 	let secondTimer: NodeJS.Timeout | null = null;
 	let refreshing = false;

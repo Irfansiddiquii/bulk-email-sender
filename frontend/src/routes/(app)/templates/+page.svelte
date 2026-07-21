@@ -22,8 +22,9 @@
 		User,
 		Building2
 	} from "lucide-svelte";
+	import type { Template } from "$lib/types";
 
-	let templates: any[] = [];
+	let templates: Template[] = [];
 	let searchFilter = "";
 	let showEditor = false;
 	let editMode = false;
