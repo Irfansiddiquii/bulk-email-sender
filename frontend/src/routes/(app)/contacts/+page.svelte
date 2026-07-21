@@ -178,9 +178,9 @@
 
 	$: filteredContacts = contacts.filter(c => {
 		const query = searchFilter.toLowerCase();
-		return c.name.toLowerCase().includes(query) || 
-		       c.email.toLowerCase().includes(query) || 
-		       c.company.toLowerCase().includes(query);
+		return (c.name?.toLowerCase() || '').includes(query) || 
+		       (c.email?.toLowerCase() || '').includes(query) || 
+		       (c.company?.toLowerCase() || '').includes(query);
 	});
 </script>
 

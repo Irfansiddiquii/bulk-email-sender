@@ -121,9 +121,9 @@
 
 	$: filteredLogs = logs.filter((log) => {
 		const matchesSearch =
-			log.email?.toLowerCase().includes(searchFilter.toLowerCase()) ||
-			log.subject?.toLowerCase().includes(searchFilter.toLowerCase()) ||
-			log.message?.toLowerCase().includes(searchFilter.toLowerCase());
+			(log.email?.toLowerCase() || '').includes(searchFilter.toLowerCase()) ||
+			(log.subject?.toLowerCase() || '').includes(searchFilter.toLowerCase()) ||
+			(log.message?.toLowerCase() || '').includes(searchFilter.toLowerCase());
 
 		if (statusFilter === "ALL") return matchesSearch;
 		const logStatus = log.status?.toUpperCase();

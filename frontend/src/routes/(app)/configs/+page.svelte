@@ -71,10 +71,10 @@
 		if (!searchQuery) return true;
 		const q = searchQuery.toLowerCase();
 		return (
-			c.name.toLowerCase().includes(q) ||
-			c.host.toLowerCase().includes(q) ||
-			c.user.toLowerCase().includes(q) ||
-			c.fromEmail.toLowerCase().includes(q)
+			(c.name?.toLowerCase() || '').includes(q) ||
+			(c.host?.toLowerCase() || '').includes(q) ||
+			(c.user?.toLowerCase() || '').includes(q) ||
+			(c.fromEmail?.toLowerCase() || '').includes(q)
 		);
 	});
 

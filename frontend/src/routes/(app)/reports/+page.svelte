@@ -96,9 +96,9 @@
 
 	// Filter & Paginate
 	$: filteredLogs = logs.filter(log => {
-		const matchesSearch = log.message?.toLowerCase().includes(searchFilter.toLowerCase()) || 
-		                      log.level?.toLowerCase().includes(searchFilter.toLowerCase()) ||
-		                      log.timestamp?.includes(searchFilter);
+		const matchesSearch = (log.message?.toLowerCase() || '').includes(searchFilter.toLowerCase()) || 
+		                      (log.level?.toLowerCase() || '').includes(searchFilter.toLowerCase()) ||
+		                      (log.timestamp || '').includes(searchFilter);
 		
 		if (levelFilter === 'ALL') return matchesSearch;
 		if (levelFilter === 'INFO') return matchesSearch && log.level?.toUpperCase() === 'INFO';

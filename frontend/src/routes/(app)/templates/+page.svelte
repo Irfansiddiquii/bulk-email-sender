@@ -155,9 +155,9 @@
 	$: filteredTemplates = templates.filter((t) => {
 		const query = searchFilter.toLowerCase();
 		return (
-			t.name.toLowerCase().includes(query) ||
-			t.subject.toLowerCase().includes(query) ||
-			t.body.toLowerCase().includes(query)
+			(t.name?.toLowerCase() || '').includes(query) ||
+			(t.subject?.toLowerCase() || '').includes(query) ||
+			(t.body?.toLowerCase() || '').includes(query)
 		);
 	});
 </script>
