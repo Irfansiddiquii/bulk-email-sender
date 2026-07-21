@@ -17,9 +17,13 @@ export interface Template {
 export interface ScheduledJob {
 	id: string;
 	subject: string;
-	scheduledTime: string;
-	totalContacts: number;
+	scheduledTime?: string;
+	scheduled_time?: string;
+	totalContacts?: number;
+	contact_count?: number;
 	notifyEmail?: string;
+	notify_email?: string;
+	status?: string;
 	createdAt?: string;
 }
 

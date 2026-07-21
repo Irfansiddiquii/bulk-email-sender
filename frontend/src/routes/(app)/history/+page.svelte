@@ -229,8 +229,10 @@
 
 					{#if statusDropdownOpen}
 						<div
+							role="presentation"
 							class="absolute left-0 sm:right-0 top-full mt-2 w-full min-w-[180px] bg-white border border-slate-200/90 rounded-2xl p-1.5 shadow-xl shadow-slate-900/10 z-40 space-y-1 transition-all duration-200 animate-in fade-in slide-in-from-top-2"
 							on:click|stopPropagation
+							on:keydown|stopPropagation
 						>
 							<button
 								type="button"
@@ -343,8 +345,10 @@
 					<!-- Export Dropdown Menu -->
 					{#if exportDropdownOpen}
 						<div
+							role="presentation"
 							class="absolute right-0 top-full mt-2 w-52 bg-white border border-slate-200/90 rounded-2xl p-1.5 shadow-xl shadow-slate-900/10 z-40 space-y-1 focus:outline-none transition-all duration-200 animate-in fade-in slide-in-from-top-2"
 							on:click|stopPropagation
+							on:keydown|stopPropagation
 						>
 							<div
 								class="px-3 py-1.5 border-b border-slate-100 mb-1"
@@ -484,7 +488,7 @@
 										class="px-5 py-3 text-slate-400 font-mono select-all"
 									>
 										{new Date(
-											log.timestamp,
+											log.timestamp || Date.now(),
 										).toLocaleString()}
 									</td>
 									<td

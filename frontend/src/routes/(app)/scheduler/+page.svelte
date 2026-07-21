@@ -606,8 +606,10 @@
 {#if showScheduleModal}
 	<!-- Modal Overlay Centered Relative to Content Area (Respects Sidebar Offset md:left-64) -->
 	<div
+		role="presentation"
 		class="fixed inset-0 md:left-64 bg-slate-950/70 backdrop-blur-md z-40 p-4 sm:p-6 md:p-8 flex items-center justify-center overflow-y-auto select-none animate-in fade-in duration-200"
 		on:click|self={() => (showScheduleModal = false)}
+		on:keydown|self={(e) => { if (e.key === 'Escape') showScheduleModal = false; }}
 	>
 		<!-- Double-Bezel Centered Modal Container -->
 		<div

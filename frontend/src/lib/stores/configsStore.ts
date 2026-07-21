@@ -9,6 +9,7 @@ export interface SMTPConfig {
 	secure: boolean;
 	user: string;
 	fromEmail: string;
+	senderEmail?: string;
 	fromName: string;
 	isDefault: boolean;
 	createdAt?: string;
