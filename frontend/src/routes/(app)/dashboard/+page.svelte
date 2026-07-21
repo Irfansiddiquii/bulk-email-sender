@@ -255,7 +255,7 @@
 	};
 </script>
 
-<div class="space-y-8 select-none">
+<div class="space-y-6 sm:space-y-8 select-none w-full">
 	<!-- Page Header Toolbar -->
 	<Header
 		title="Campaign Dashboard"

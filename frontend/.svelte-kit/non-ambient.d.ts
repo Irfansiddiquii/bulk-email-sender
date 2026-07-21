@@ -50,7 +50,7 @@ declare module "$app/types" {
 			"/(app)/settings": Record<string, never>;
 			"/(app)/templates": Record<string, never>
 		};
-		Pathname(): "/" | "/compose" | "/configs" | "/contacts" | "/dashboard" | "/history" | "/login" | "/notifications" | "/profile" | "/register" | "/reports" | "/scheduler" | "/templates";
+		Pathname(): "/" | "/compose" | "/configs" | "/contacts" | "/dashboard" | "/history" | "/login" | "/notifications" | "/profile" | "/register" | "/reports" | "/scheduler" | "/settings" | "/templates";
 		ResolvedPathname(): `${"" | `/${string}`}${ReturnType<AppTypes['Pathname']>}`;
 		Asset(): string & {};
 	}

@@ -187,7 +187,7 @@
 	}
 </script>
 
-<div class="space-y-6">
+<div class="space-y-6 sm:space-y-8 w-full">
 	<!-- Header Panel -->
 	<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
 		<Header title="SMTP Configurations" subtitle="Manage multiple email server configurations for sending campaigns" />

@@ -278,7 +278,7 @@
 	}
 </script>
 
-<div class="space-y-6">
+<div class="space-y-6 sm:space-y-8 w-full">
 	<!-- Page Header -->
 	<Header title="Compose Email Campaign" subtitle="Design your newsletter and dispatch to your subscriber database" />
 

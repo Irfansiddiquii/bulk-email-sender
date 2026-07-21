@@ -12,5 +12,6 @@
 	"/register": [],
 	"/(app)/reports": [],
 	"/(app)/scheduler": [],
+	"/(app)/settings": [],
 	"/(app)/templates": []
 }

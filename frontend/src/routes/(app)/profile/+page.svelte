@@ -12,7 +12,7 @@
 	});
 </script>
 
-<div class="space-y-6">
+<div class="space-y-6 sm:space-y-8 w-full">
 	<!-- Page Header -->
 	<Header title="My User Profile" subtitle="Manage your bulk sender account details and security settings" />
 

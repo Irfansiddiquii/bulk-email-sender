@@ -55,7 +55,7 @@
 	}
 </script>
 
-<div class="space-y-6">
+<div class="space-y-6 sm:space-y-8 w-full">
 	<!-- Page Header -->
 	<Header title="Notification Alert Preferences" subtitle="Configure system notification alerts and verify delivery connections" />
 

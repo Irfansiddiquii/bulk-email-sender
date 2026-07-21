@@ -186,7 +186,7 @@
 
 <svelte:window on:keydown={handleKeydown} />
 
-<div class="space-y-6 max-w-7xl mx-auto pb-12">
+<div class="space-y-6 sm:space-y-8 w-full">
 	<!-- Page Header -->
 	<Header 
 		title="Contact Database Manager" 

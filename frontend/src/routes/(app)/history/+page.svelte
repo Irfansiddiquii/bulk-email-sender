@@ -149,7 +149,7 @@
 
 <svelte:window on:click={closeAllDropdowns} on:keydown={handleKeydown} />
 
-<div class="space-y-6">
+<div class="space-y-6 sm:space-y-8 w-full">
 	<!-- Page Header -->
 	<Header
 		title="Delivery History Logs"

@@ -32,7 +32,7 @@
 
 		<!-- Main app body content -->
 		<main class="flex-grow overflow-y-auto w-full relative z-10">
-			<div class="p-6 md:p-10 max-w-7xl mx-auto w-full min-h-full flex flex-col transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]">
+			<div class="px-4 sm:px-6 lg:px-8 xl:px-10 py-6 md:py-8 max-w-7xl mx-auto w-full min-h-full flex flex-col transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]">
 				<slot />
 			</div>
 		</main>
