@@ -194,7 +194,8 @@
 	/>
 
 	<!-- Single Premium Unified Toolbar -->
-	<div class="bg-white/95 backdrop-blur-md border border-slate-200/80 rounded-2xl p-2.5 sm:p-3 shadow-xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 relative z-20">
+	<div class="p-1.5 rounded-[1.5rem] bg-gradient-to-b from-slate-900/[0.03] to-indigo-900/[0.03] border border-indigo-200/70 hover:border-indigo-400/80 shadow-xs backdrop-blur-xl transition-all duration-200 relative z-20">
+		<div class="bg-white rounded-[calc(1.5rem-0.375rem)] p-2.5 sm:p-3 shadow-2xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
 		
 		<!-- Search Field with High Hierarchy -->
 		<div class="relative flex-1 min-w-[240px] max-w-xl group">
@@ -256,7 +257,7 @@
 
 				{#if showActionsDropdown}
 					<div 
-						class="absolute right-0 mt-2 w-56 bg-white border border-slate-200/90 rounded-2xl shadow-xl p-1.5 z-50 animate-in fade-in zoom-in-95 duration-100 divide-y divide-slate-100"
+						class="absolute right-0 mt-2 w-56 bg-white border border-indigo-200/80 rounded-2xl shadow-xl p-1.5 z-50 animate-in fade-in zoom-in-95 duration-100 divide-y divide-slate-100"
 					>
 						<div class="py-1">
 							<!-- Import Excel Option -->
@@ -320,101 +321,105 @@
 			</button>
 		</div>
 	</div>
+</div>
 
 	<!-- Add Contact Form Card (Refined Doppelrand Styling) -->
 	{#if showAddForm}
-		<div class="bg-white border border-slate-200/90 p-5 sm:p-6 rounded-2xl shadow-xs space-y-4 animate-in fade-in slide-in-from-top-2 duration-200">
-			<div class="flex items-center justify-between border-b border-slate-100 pb-3">
-				<div class="flex items-center gap-2">
-					<div class="w-8 h-8 rounded-xl bg-indigo-50 border border-indigo-100 text-indigo-600 flex items-center justify-center">
-						<UserPlus class="w-4 h-4" />
+		<div class="p-1.5 rounded-[2.25rem] bg-gradient-to-b from-slate-900/[0.03] to-indigo-900/[0.03] border border-indigo-200/70 hover:border-indigo-400/80 shadow-md transition-all duration-300 relative overflow-hidden group">
+			<div class="bg-white border border-slate-100/90 p-5 sm:p-6 rounded-[calc(2.25rem-0.5rem)] shadow-[inset_0_1px_1px_rgba(255,255,255,0.9)] space-y-4">
+				<div class="flex items-center justify-between border-b border-slate-100 pb-3">
+					<div class="flex items-center gap-2">
+						<div class="w-8 h-8 rounded-xl bg-indigo-50 border border-indigo-100 text-indigo-600 flex items-center justify-center">
+							<UserPlus class="w-4 h-4" />
+						</div>
+						<div>
+							<h3 class="font-bold text-slate-900 text-sm">Add New Contact</h3>
+							<p class="text-xs text-slate-500">Enter recipient information to add them to your database.</p>
+						</div>
+					</div>
+					<button 
+						type="button" 
+						on:click={() => showAddForm = false}
+						class="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"
+						title="Cancel"
+					>
+						<X class="w-4 h-4" />
+					</button>
+				</div>
+
+				<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-1">
+					<div>
+						<label for="new-name" class="block text-xs font-semibold text-slate-700 mb-1.5">Full Name</label>
+						<div class="relative">
+							<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+								<User class="w-3.5 h-3.5" />
+							</div>
+							<input 
+								id="new-name"
+								type="text" 
+								bind:value={newName} 
+								placeholder="Jane Doe"
+								class="w-full pl-9 pr-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 focus:outline-none transition-all"
+							/>
+						</div>
 					</div>
 					<div>
-						<h3 class="font-bold text-slate-900 text-sm">Add New Contact</h3>
-						<p class="text-xs text-slate-500">Enter recipient information to add them to your database.</p>
+						<label for="new-email" class="block text-xs font-semibold text-slate-700 mb-1.5">Email Address <span class="text-rose-500">*</span></label>
+						<div class="relative">
+							<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+								<Mail class="w-3.5 h-3.5" />
+							</div>
+							<input 
+								id="new-email"
+								type="email" 
+								bind:value={newEmail} 
+								placeholder="jane.doe@example.com"
+								class="w-full pl-9 pr-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 focus:outline-none transition-all"
+								required
+							/>
+						</div>
+					</div>
+					<div>
+						<label for="new-company" class="block text-xs font-semibold text-slate-700 mb-1.5">Company / Organization</label>
+						<div class="relative">
+							<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+								<Building2 class="w-3.5 h-3.5" />
+							</div>
+							<input 
+								id="new-company"
+								type="text" 
+								bind:value={newCompany} 
+								placeholder="Acme Inc."
+								class="w-full pl-9 pr-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 focus:outline-none transition-all"
+							/>
+						</div>
 					</div>
 				</div>
-				<button 
-					type="button" 
-					on:click={() => showAddForm = false}
-					class="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"
-					title="Cancel"
-				>
-					<X class="w-4 h-4" />
-				</button>
-			</div>
 
-			<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-1">
-				<div>
-					<label for="new-name" class="block text-xs font-semibold text-slate-700 mb-1.5">Full Name</label>
-					<div class="relative">
-						<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
-							<User class="w-3.5 h-3.5" />
-						</div>
-						<input 
-							id="new-name"
-							type="text" 
-							bind:value={newName} 
-							placeholder="Jane Doe"
-							class="w-full pl-9 pr-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 focus:outline-none transition-all"
-						/>
-					</div>
+				<div class="flex justify-end items-center gap-2 pt-2 border-t border-slate-100">
+					<button 
+						type="button" 
+						on:click={() => showAddForm = false}
+						class="px-4 py-2 bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 rounded-xl text-xs font-semibold transition-all"
+					>
+						Cancel
+					</button>
+					<button 
+						type="button" 
+						on:click={addContact}
+						class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-semibold shadow-sm shadow-indigo-600/20 transition-all flex items-center gap-1.5"
+					>
+						<Plus class="w-3.5 h-3.5" />
+						Save Contact
+					</button>
 				</div>
-				<div>
-					<label for="new-email" class="block text-xs font-semibold text-slate-700 mb-1.5">Email Address <span class="text-rose-500">*</span></label>
-					<div class="relative">
-						<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
-							<Mail class="w-3.5 h-3.5" />
-						</div>
-						<input 
-							id="new-email"
-							type="email" 
-							bind:value={newEmail} 
-							placeholder="jane.doe@example.com"
-							class="w-full pl-9 pr-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 focus:outline-none transition-all"
-							required
-						/>
-					</div>
-				</div>
-				<div>
-					<label for="new-company" class="block text-xs font-semibold text-slate-700 mb-1.5">Company / Organization</label>
-					<div class="relative">
-						<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
-							<Building2 class="w-3.5 h-3.5" />
-						</div>
-						<input 
-							id="new-company"
-							type="text" 
-							bind:value={newCompany} 
-							placeholder="Acme Inc."
-							class="w-full pl-9 pr-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10 focus:outline-none transition-all"
-						/>
-					</div>
-				</div>
-			</div>
-
-			<div class="flex justify-end items-center gap-2 pt-2 border-t border-slate-100">
-				<button 
-					type="button" 
-					on:click={() => showAddForm = false}
-					class="px-4 py-2 bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 rounded-xl text-xs font-semibold transition-all"
-				>
-					Cancel
-				</button>
-				<button 
-					type="button" 
-					on:click={addContact}
-					class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-semibold shadow-sm shadow-indigo-600/20 transition-all flex items-center gap-1.5"
-				>
-					<Plus class="w-3.5 h-3.5" />
-					Save Contact
-				</button>
 			</div>
 		</div>
 	{/if}
 
 	<!-- Refined Contacts Table Container -->
-	<div class="bg-white border border-slate-200/90 rounded-2xl shadow-xs overflow-hidden">
+	<div class="p-1.5 rounded-[2.25rem] bg-gradient-to-b from-slate-900/[0.03] to-indigo-900/[0.03] border border-indigo-200/70 hover:border-indigo-400/80 hover:ring-1 hover:ring-indigo-400/20 shadow-md hover:shadow-xl transition-all duration-300 relative overflow-hidden group">
+		<div class="bg-white border border-slate-100/90 rounded-[calc(2.25rem-0.5rem)] shadow-[inset_0_1px_1px_rgba(255,255,255,0.9)] overflow-hidden">
 		
 		<!-- Table Header Control Bar -->
 		<div class="px-5 py-4 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between gap-4">
@@ -551,5 +556,6 @@
 			</div>
 		{/if}
 	</div>
+</div>
 </div>
 

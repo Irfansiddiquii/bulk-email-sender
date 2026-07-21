@@ -172,7 +172,7 @@
 	/>
 
 	<!-- Single Premium Unified Toolbar (Doppelrand / Double-Bezel Enclosure) -->
-	<div class="p-1.5 rounded-[1.5rem] bg-slate-900/[0.03] border border-slate-200/80 shadow-xs mb-8 backdrop-blur-xl">
+	<div class="p-1.5 rounded-[1.5rem] bg-gradient-to-b from-slate-900/[0.03] to-indigo-900/[0.03] border border-indigo-200/70 hover:border-indigo-400/80 shadow-xs mb-8 backdrop-blur-xl transition-all duration-200">
 		<div
 			class="bg-white rounded-[calc(1.5rem-0.375rem)] p-3 sm:p-3.5 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 sm:gap-4 shadow-2xs relative z-20"
 		>
@@ -244,7 +244,7 @@
 	{#if showEditor}
 		<!-- Template editor form Modal Container (Double-Bezel Architecture) -->
 		<div
-			class="p-2 rounded-[2.25rem] bg-gradient-to-b from-slate-100/90 via-slate-50/70 to-indigo-50/30 border border-slate-200/90 shadow-2xl shadow-slate-900/10 mb-8 backdrop-blur-2xl animate-in fade-in slide-in-from-top-4 duration-300 relative z-30 overflow-hidden"
+			class="p-2 rounded-[2.25rem] bg-gradient-to-b from-slate-900/[0.03] to-indigo-900/[0.03] border border-indigo-200/70 hover:border-indigo-400/80 hover:ring-1 hover:ring-indigo-400/20 shadow-2xl shadow-slate-900/10 mb-8 backdrop-blur-2xl animate-in fade-in slide-in-from-top-4 duration-300 relative z-30 overflow-hidden"
 		>
 			<!-- Hairline Top Accent Gradient Strip -->
 			<div class="absolute top-0 left-10 right-10 h-[2px] bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-600 z-10"></div>

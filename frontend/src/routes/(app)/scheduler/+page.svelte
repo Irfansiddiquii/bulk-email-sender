@@ -394,7 +394,7 @@
 	/>
 
 	<!-- Single Premium Unified Toolbar (Doppelrand / Double-Bezel Enclosure) -->
-	<div class="p-1.5 rounded-[1.5rem] bg-slate-900/[0.03] border border-slate-200/80 shadow-xs mb-8 backdrop-blur-xl">
+	<div class="p-1.5 rounded-[1.5rem] bg-gradient-to-b from-slate-900/[0.03] to-indigo-900/[0.03] border border-indigo-200/70 hover:border-indigo-400/80 shadow-xs mb-8 backdrop-blur-xl transition-all duration-200">
 		<div
 			class="bg-white rounded-[calc(1.5rem-0.375rem)] p-3.5 sm:p-4 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 sm:gap-4 shadow-2xs relative z-20"
 		>
@@ -449,7 +449,7 @@
 
 	<!-- Scheduling Stats Metric Overview Strip -->
 	<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-		<div class="p-1 rounded-2xl bg-slate-900/[0.03] border border-slate-200/80 shadow-2xs">
+		<div class="p-1 rounded-2xl bg-slate-900/[0.03] border border-indigo-200/70 hover:border-indigo-400/80 shadow-2xs transition-all duration-200">
 			<div class="bg-white rounded-[calc(1rem-0.25rem)] p-4 flex items-center gap-3.5 border border-slate-100">
 				<div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 border border-indigo-100 flex items-center justify-center shrink-0">
 					<Clock class="w-5 h-5" />
@@ -461,7 +461,7 @@
 			</div>
 		</div>
 
-		<div class="p-1 rounded-2xl bg-slate-900/[0.03] border border-slate-200/80 shadow-2xs">
+		<div class="p-1 rounded-2xl bg-slate-900/[0.03] border border-blue-200/70 hover:border-blue-400/80 shadow-2xs transition-all duration-200">
 			<div class="bg-white rounded-[calc(1rem-0.25rem)] p-4 flex items-center gap-3.5 border border-slate-100">
 				<div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center shrink-0">
 					<Activity class="w-5 h-5" />
@@ -475,7 +475,7 @@
 			</div>
 		</div>
 
-		<div class="p-1 rounded-2xl bg-slate-900/[0.03] border border-slate-200/80 shadow-2xs">
+		<div class="p-1 rounded-2xl bg-slate-900/[0.03] border border-emerald-200/70 hover:border-emerald-400/80 shadow-2xs transition-all duration-200">
 			<div class="bg-white rounded-[calc(1rem-0.25rem)] p-4 flex items-center gap-3.5 border border-slate-100">
 				<div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center justify-center shrink-0">
 					<CheckCircle2 class="w-5 h-5" />
@@ -492,8 +492,8 @@
 	</div>
 
 	{#if loading}
-		<div class="p-2 rounded-[2rem] bg-slate-900/[0.03] border border-slate-200/80 shadow-md">
-			<div class="bg-white rounded-[calc(2rem-0.5rem)] p-12 text-center flex flex-col items-center justify-center border border-slate-100">
+		<div class="p-1.5 rounded-[2.25rem] bg-gradient-to-b from-slate-900/[0.03] to-indigo-900/[0.03] border border-indigo-200/70 hover:border-indigo-400/80 shadow-md">
+			<div class="bg-white rounded-[calc(2.25rem-0.5rem)] p-12 text-center flex flex-col items-center justify-center border border-slate-100">
 				<div class="animate-spin rounded-full h-9 w-9 border-t-2 border-b-2 border-indigo-600 mb-4"></div>
 				<p class="text-slate-600 font-semibold text-sm">Retrieving automated schedules...</p>
 				<p class="text-slate-400 text-xs mt-1">Syncing with campaign queue background engine</p>
@@ -502,8 +502,8 @@
 	{:else}
 		{#if scheduledJobs.length === 0}
 			<!-- High-End Rich Empty State -->
-			<div class="p-2 rounded-[2rem] bg-gradient-to-b from-slate-100/80 via-slate-50/50 to-indigo-50/20 border border-slate-200/80 shadow-md">
-				<div class="bg-white rounded-[calc(2rem-0.5rem)] p-8 sm:p-12 text-center border border-slate-100 shadow-[inset_0_1px_1px_rgba(255,255,255,0.9)] max-w-2xl mx-auto my-4">
+			<div class="p-1.5 rounded-[2.25rem] bg-gradient-to-b from-slate-900/[0.03] to-indigo-900/[0.03] border border-indigo-200/70 hover:border-indigo-400/80 hover:ring-1 hover:ring-indigo-400/20 shadow-md">
+				<div class="bg-white rounded-[calc(2.25rem-0.5rem)] p-8 sm:p-12 text-center border border-slate-100 shadow-[inset_0_1px_1px_rgba(255,255,255,0.9)] max-w-2xl mx-auto my-4">
 					<div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 via-indigo-600 to-violet-600 text-white shadow-lg shadow-indigo-500/25 flex items-center justify-center mx-auto mb-5">
 						<Calendar class="w-8 h-8 text-white" />
 					</div>
@@ -522,8 +522,8 @@
 			</div>
 		{:else}
 			<!-- Premium Doppelrand Table Container -->
-			<div class="p-2 rounded-[2rem] bg-slate-900/[0.03] border border-slate-200/80 shadow-md backdrop-blur-xl">
-				<div class="bg-white rounded-[calc(2rem-0.5rem)] overflow-hidden border border-slate-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
+			<div class="p-1.5 rounded-[2.25rem] bg-gradient-to-b from-slate-900/[0.03] to-indigo-900/[0.03] border border-indigo-200/70 hover:border-indigo-400/80 hover:ring-1 hover:ring-indigo-400/20 shadow-md backdrop-blur-xl transition-all duration-300 relative overflow-hidden group">
+				<div class="bg-white rounded-[calc(2.25rem-0.5rem)] overflow-hidden border border-slate-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
 					<div class="overflow-x-auto">
 						<table class="w-full text-sm text-left text-slate-600">
 							<thead class="text-[10px] font-mono font-bold uppercase tracking-wider bg-slate-50/80 text-slate-400 border-b border-slate-200/80">

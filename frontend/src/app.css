@@ -30,3 +30,23 @@
 .transition-premium {
   transition: all 0.5s cubic-bezier(0.32, 0.72, 0, 1);
 }
+
+@layer components {
+  /* Centralized Premium Card Design Tokens */
+  .card-premium-shell {
+    @apply p-1.5 rounded-[2.25rem] bg-gradient-to-b from-slate-900/[0.03] to-indigo-900/[0.03] border border-indigo-200/70 hover:border-indigo-400/80 hover:ring-1 hover:ring-indigo-400/20 shadow-md hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300 relative group overflow-hidden;
+  }
+
+  .card-premium-inner {
+    @apply bg-white rounded-[calc(2.25rem-0.5rem)] border border-slate-100/90 shadow-[inset_0_1px_1px_rgba(255,255,255,0.9)];
+  }
+
+  .card-stat-shell {
+    @apply p-1 rounded-2xl bg-slate-900/[0.03] border border-indigo-200/70 hover:border-indigo-400/80 shadow-2xs transition-all duration-200;
+  }
+
+  .modal-premium-shell {
+    @apply bg-white rounded-[2.25rem] border border-indigo-200/80 shadow-2xl shadow-slate-950/30 overflow-hidden relative;
+  }
+}
+

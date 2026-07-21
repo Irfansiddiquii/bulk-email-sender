@@ -428,8 +428,9 @@
 
 		<!-- Log list table card -->
 		<div
-			class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-4"
+			class="p-1.5 rounded-[2.25rem] bg-gradient-to-b from-slate-900/[0.03] to-indigo-900/[0.03] border border-indigo-200/70 hover:border-indigo-400/80 hover:ring-1 hover:ring-indigo-400/20 shadow-md hover:shadow-xl transition-all duration-300 relative overflow-hidden group"
 		>
+			<div class="bg-white border border-slate-100/90 rounded-[calc(2.25rem-0.5rem)] p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,0.9)] space-y-4">
 			<div
 				class="flex justify-between items-center border-b border-slate-100 pb-3"
 			>
@@ -562,6 +563,7 @@
 					</div>
 				{/if}
 			{/if}
+			</div>
 		</div>
 	{/if}
 </div>

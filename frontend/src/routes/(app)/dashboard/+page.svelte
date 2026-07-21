@@ -315,7 +315,7 @@
 		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 			<!-- Sent card -->
 			<div
-				class="p-1.5 bg-[#090d16]/5 border border-slate-200/45 rounded-2xl transition-all duration-300 hover:shadow-premium-hover hover:-translate-y-0.5 hover:border-indigo-100/80 group"
+				class="p-1 rounded-2xl bg-slate-900/[0.03] border border-emerald-200/70 hover:border-emerald-400/80 shadow-2xs transition-all duration-300 hover:-translate-y-0.5 group"
 			>
 				<div
 					class="p-5 bg-white border border-slate-100/60 rounded-[calc(1rem-0.125rem)] shadow-soft flex items-start gap-4 h-full relative overflow-hidden"
@@ -357,7 +357,7 @@
 
 			<!-- Scheduled Count Card -->
 			<div
-				class="p-1.5 bg-[#090d16]/5 border border-slate-200/45 rounded-2xl transition-all duration-300 hover:shadow-premium-hover hover:-translate-y-0.5 hover:border-indigo-100/80 group"
+				class="p-1 rounded-2xl bg-slate-900/[0.03] border border-violet-200/70 hover:border-violet-400/80 shadow-2xs transition-all duration-300 hover:-translate-y-0.5 group"
 			>
 				<div
 					class="p-5 bg-white border border-slate-100/60 rounded-[calc(1rem-0.125rem)] shadow-soft flex items-start gap-4 h-full relative overflow-hidden"
@@ -391,7 +391,7 @@
 
 			<!-- Total Emails Sent Card -->
 			<div
-				class="p-1.5 bg-[#090d16]/5 border border-slate-200/45 rounded-2xl transition-all duration-300 hover:shadow-premium-hover hover:-translate-y-0.5 hover:border-indigo-100/80 group"
+				class="p-1 rounded-2xl bg-slate-900/[0.03] border border-indigo-200/70 hover:border-indigo-400/80 shadow-2xs transition-all duration-300 hover:-translate-y-0.5 group"
 			>
 				<div
 					class="p-5 bg-white border border-slate-100/60 rounded-[calc(1rem-0.125rem)] shadow-soft flex items-start gap-4 h-full relative overflow-hidden"
@@ -425,7 +425,7 @@
 
 			<!-- Delivery Success Rate Card -->
 			<div
-				class="p-1.5 bg-[#090d16]/5 border border-slate-200/45 rounded-2xl transition-all duration-300 hover:shadow-premium-hover hover:-translate-y-0.5 hover:border-indigo-100/80 group"
+				class="p-1 rounded-2xl bg-slate-900/[0.03] border border-blue-200/70 hover:border-blue-400/80 shadow-2xs transition-all duration-300 hover:-translate-y-0.5 group"
 			>
 				<div
 					class="p-5 bg-white border border-slate-100/60 rounded-[calc(1rem-0.125rem)] shadow-soft flex items-start gap-4 h-full relative overflow-hidden"
@@ -461,10 +461,10 @@
 		<!-- Live Send Monitor (Progress Bar) -->
 		{#if batchStatus}
 			<div
-				class="p-1.5 bg-[#090d16]/5 border border-slate-200/40 rounded-[2rem] transition-all duration-300 hover:border-slate-200 shadow-soft"
+				class="p-1.5 bg-gradient-to-b from-slate-900/[0.03] to-indigo-900/[0.03] border border-indigo-200/70 hover:border-indigo-400/80 hover:ring-1 hover:ring-indigo-400/20 rounded-[2.25rem] transition-all duration-300 shadow-md hover:shadow-xl relative overflow-hidden group"
 			>
 				<div
-					class="bg-white border border-slate-100 p-6 md:p-8 rounded-[calc(2rem-0.375rem)] space-y-6"
+					class="bg-white border border-slate-100/90 p-6 md:p-8 rounded-[calc(2.25rem-0.5rem)] space-y-6 shadow-[inset_0_1px_1px_rgba(255,255,255,0.9)]"
 				>
 					<div
 						class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"
@@ -599,10 +599,10 @@
 		<!-- Scheduled Campaigns List -->
 		{#if scheduledJobs.length > 0}
 			<div
-				class="p-1.5 bg-[#090d16]/5 border border-slate-200/40 rounded-[2rem] shadow-soft"
+				class="p-1.5 bg-gradient-to-b from-slate-900/[0.03] to-indigo-900/[0.03] border border-indigo-200/70 hover:border-indigo-400/80 hover:ring-1 hover:ring-indigo-400/20 rounded-[2.25rem] shadow-md hover:shadow-xl transition-all duration-300 relative overflow-hidden group"
 			>
 				<div
-					class="bg-white border border-slate-100 p-6 rounded-[calc(2rem-0.375rem)] space-y-5"
+					class="bg-white border border-slate-100/90 p-6 rounded-[calc(2.25rem-0.5rem)] space-y-5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.9)]"
 				>
 					<div
 						class="flex items-center justify-between border-b border-slate-100 pb-3"
@@ -719,10 +719,10 @@
 		<!-- Empty State when nothing is processing -->
 		{#if !batchStatus && scheduledJobs.length === 0}
 			<div
-				class="p-1.5 bg-[#090d16]/5 border border-slate-200/30 rounded-[2rem] shadow-soft max-w-2xl mx-auto mt-6"
+				class="p-1.5 bg-gradient-to-b from-slate-900/[0.03] to-indigo-900/[0.03] border border-indigo-200/70 hover:border-indigo-400/80 hover:ring-1 hover:ring-indigo-400/20 rounded-[2.25rem] shadow-md hover:shadow-xl transition-all duration-300 max-w-2xl mx-auto mt-6 relative overflow-hidden group"
 			>
 				<div
-					class="bg-white border border-slate-100 rounded-[calc(2rem-0.375rem)] p-12 text-center flex flex-col items-center"
+					class="bg-white border border-slate-100/90 rounded-[calc(2.25rem-0.5rem)] p-12 text-center flex flex-col items-center shadow-[inset_0_1px_1px_rgba(255,255,255,0.9)]"
 				>
 					<!-- Custom visual mail vector illustration -->
 					<div

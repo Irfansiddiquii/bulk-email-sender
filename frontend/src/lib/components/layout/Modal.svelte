@@ -15,9 +15,9 @@
 </script>
 
 {#if show}
-	<div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+	<div class="fixed inset-0 bg-slate-950/70 backdrop-blur-md z-50 flex items-center justify-center p-4">
 		<div 
-			class="bg-white rounded-2xl shadow-xl w-full overflow-hidden border border-slate-100 max-h-[90vh] flex flex-col transition-all transform scale-100"
+			class="bg-white rounded-[2.25rem] shadow-2xl shadow-slate-950/30 w-full overflow-hidden border border-indigo-200/80 max-h-[90vh] flex flex-col transition-all transform scale-100 relative"
 			class:max-w-sm={size === 'sm'}
 			class:max-w-md={size === 'md'}
 			class:max-w-lg={size === 'lg'}

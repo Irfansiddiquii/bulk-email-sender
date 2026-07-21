@@ -24,7 +24,8 @@
 		<!-- Main Settings Panel -->
 		<div class="md:col-span-2 space-y-6">
 			<!-- Dispatch Settings Card -->
-			<div class="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-xs space-y-6">
+			<div class="p-1.5 rounded-[2.25rem] bg-gradient-to-b from-slate-900/[0.03] to-indigo-900/[0.03] border border-indigo-200/70 hover:border-indigo-400/80 hover:ring-1 hover:ring-indigo-400/20 shadow-md transition-all duration-300 relative overflow-hidden group">
+				<div class="bg-white border border-slate-100/90 rounded-[calc(2.25rem-0.5rem)] p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,0.9)] space-y-6">
 				<div class="flex items-center gap-3 border-b border-slate-100 pb-4">
 					<div class="w-9 h-9 rounded-xl bg-indigo-50 border border-indigo-100 text-indigo-600 flex items-center justify-center">
 						<Zap class="w-4.5 h-4.5" />
@@ -65,10 +66,12 @@
 						</select>
 					</div>
 				</div>
+				</div>
 			</div>
 
 			<!-- Preference Options -->
-			<div class="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-xs space-y-6">
+			<div class="p-1.5 rounded-[2.25rem] bg-gradient-to-b from-slate-900/[0.03] to-indigo-900/[0.03] border border-indigo-200/70 hover:border-indigo-400/80 hover:ring-1 hover:ring-indigo-400/20 shadow-md transition-all duration-300 relative overflow-hidden group">
+				<div class="bg-white border border-slate-100/90 rounded-[calc(2.25rem-0.5rem)] p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,0.9)] space-y-6">
 				<div class="flex items-center gap-3 border-b border-slate-100 pb-4">
 					<div class="w-9 h-9 rounded-xl bg-indigo-50 border border-indigo-100 text-indigo-600 flex items-center justify-center">
 						<Sliders class="w-4.5 h-4.5" />
@@ -96,6 +99,7 @@
 						<input type="checkbox" bind:checked={autoSaveDrafts} class="w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500" />
 					</label>
 				</div>
+				</div>
 			</div>
 
 			<!-- Action Bar -->
@@ -113,7 +117,8 @@
 
 		<!-- Right Info Card -->
 		<div class="space-y-6">
-			<div class="bg-indigo-900 text-white rounded-2xl p-6 shadow-sm space-y-4 relative overflow-hidden">
+			<div class="p-1.5 rounded-[2.25rem] bg-gradient-to-b from-indigo-900 via-indigo-950 to-slate-900 border border-indigo-500/30 hover:border-indigo-400/50 shadow-md transition-all duration-300 relative overflow-hidden group">
+				<div class="p-6 rounded-[calc(2.25rem-0.5rem)] text-white space-y-4 relative overflow-hidden">
 				<div class="absolute -top-10 -right-10 w-32 h-32 bg-indigo-500/20 rounded-full blur-xl pointer-events-none"></div>
 				<div class="flex items-center gap-3">
 					<div class="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center">
@@ -124,6 +129,7 @@
 				<p class="text-xs text-indigo-200 leading-relaxed">
 					All credentials and SMTP server keys are encrypted at rest using AES-256 standards.
 				</p>
+				</div>
 			</div>
 		</div>
 	</div>

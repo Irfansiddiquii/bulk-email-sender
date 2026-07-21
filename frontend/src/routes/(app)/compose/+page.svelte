@@ -326,7 +326,8 @@
 			<!-- Main compose panels -->
 			<div class="lg:col-span-2 space-y-6">
 				<!-- Core Campaign details -->
-				<div class="bg-white p-6 rounded-2xl border border-slate-200/60 shadow-sm space-y-4">
+				<div class="p-1.5 rounded-[2.25rem] bg-gradient-to-b from-slate-900/[0.03] to-indigo-900/[0.03] border border-indigo-200/70 hover:border-indigo-400/80 hover:ring-1 hover:ring-indigo-400/20 shadow-md hover:shadow-xl transition-all duration-300 relative overflow-hidden group">
+					<div class="bg-white p-6 rounded-[calc(2.25rem-0.5rem)] border border-slate-100/90 shadow-[inset_0_1px_1px_rgba(255,255,255,0.9)] space-y-4">
 					<div class="flex justify-between items-center mb-2">
 						<h3 class="font-bold text-slate-800 text-base">Campaign Content</h3>
 						<!-- Template quick select -->
@@ -403,9 +404,11 @@
 						</div>
 					{/if}
 				</div>
+				</div>
 
 				<!-- Sending Logic settings -->
-				<div class="bg-white p-6 rounded-2xl border border-slate-200/60 shadow-sm space-y-4">
+				<div class="p-1.5 rounded-[2.25rem] bg-gradient-to-b from-slate-900/[0.03] to-indigo-900/[0.03] border border-indigo-200/70 hover:border-indigo-400/80 hover:ring-1 hover:ring-indigo-400/20 shadow-md hover:shadow-xl transition-all duration-300 relative overflow-hidden group">
+					<div class="bg-white p-6 rounded-[calc(2.25rem-0.5rem)] border border-slate-100/90 shadow-[inset_0_1px_1px_rgba(255,255,255,0.9)] space-y-4">
 					<h3 class="font-bold text-slate-800 text-base mb-2">Dispatch Adjustments</h3>
 
 					<!-- Delay between emails -->
@@ -536,12 +539,14 @@
 						{/if}
 					</div>
 				</div>
+				</div>
 			</div>
 
 			<!-- Sidebar controls (Uploader, Ranges, Previews) -->
 			<div class="space-y-6">
 				<!-- Spreadsheet file uploader -->
-				<div class="bg-white p-5 rounded-2xl border border-slate-200/60 shadow-sm space-y-4">
+				<div class="p-1.5 rounded-[2.25rem] bg-gradient-to-b from-slate-900/[0.03] to-indigo-900/[0.03] border border-indigo-200/70 hover:border-indigo-400/80 hover:ring-1 hover:ring-indigo-400/20 shadow-md hover:shadow-xl transition-all duration-300 relative overflow-hidden group">
+					<div class="bg-white p-5 rounded-[calc(2.25rem-0.5rem)] border border-slate-100/90 shadow-[inset_0_1px_1px_rgba(255,255,255,0.9)] space-y-4">
 					<h3 class="font-bold text-slate-800 text-base">Recipient Database</h3>
 
 					<!-- File Dropzone -->
@@ -608,10 +613,12 @@
 						</div>
 					{/if}
 				</div>
+				</div>
 
 				<!-- Range selection panel -->
 				{#if excelFile && totalContacts > 0}
-					<div class="bg-white p-5 rounded-2xl border border-slate-200/60 shadow-sm space-y-4">
+					<div class="p-1.5 rounded-[2.25rem] bg-gradient-to-b from-slate-900/[0.03] to-indigo-900/[0.03] border border-indigo-200/70 hover:border-indigo-400/80 hover:ring-1 hover:ring-indigo-400/20 shadow-md hover:shadow-xl transition-all duration-300 relative overflow-hidden group">
+						<div class="bg-white p-5 rounded-[calc(2.25rem-0.5rem)] border border-slate-100/90 shadow-[inset_0_1px_1px_rgba(255,255,255,0.9)] space-y-4">
 						<h3 class="font-bold text-slate-800 text-base">Recipient Subset Selection</h3>
 
 						<!-- Select bounds options -->
@@ -714,10 +721,12 @@
 							</div>
 						{/if}
 					</div>
+					</div>
 				{/if}
 
 				<!-- Action triggers -->
-				<div class="bg-white p-5 rounded-2xl border border-slate-200/60 shadow-sm space-y-4">
+				<div class="p-1.5 rounded-[2.25rem] bg-gradient-to-b from-slate-900/[0.03] to-indigo-900/[0.03] border border-indigo-200/70 hover:border-indigo-400/80 hover:ring-1 hover:ring-indigo-400/20 shadow-md hover:shadow-xl transition-all duration-300 relative overflow-hidden group">
+					<div class="bg-white p-5 rounded-[calc(2.25rem-0.5rem)] border border-slate-100/90 shadow-[inset_0_1px_1px_rgba(255,255,255,0.9)] space-y-4">
 					<button 
 						type="button" 
 						on:click={previewEmail}
@@ -740,6 +749,7 @@
 							Start Campaign Send
 						{/if}
 					</button>
+				</div>
 				</div>
 			</div>
 		</div>

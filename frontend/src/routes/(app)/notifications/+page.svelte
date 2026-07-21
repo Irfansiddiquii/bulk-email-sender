@@ -106,7 +106,7 @@
 	/>
 
 	<!-- Single Premium Unified Toolbar (Doppelrand Enclosure) -->
-	<div class="p-1.5 rounded-[1.5rem] bg-slate-900/[0.03] border border-slate-200/80 shadow-xs mb-8 backdrop-blur-xl">
+	<div class="p-1.5 rounded-[1.5rem] bg-gradient-to-b from-slate-900/[0.03] to-indigo-900/[0.03] border border-indigo-200/70 hover:border-indigo-400/80 shadow-xs mb-8 backdrop-blur-xl transition-all duration-200">
 		<div
 			class="bg-white rounded-[calc(1.5rem-0.375rem)] p-3.5 sm:p-4 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 sm:gap-4 shadow-2xs relative z-20"
 		>
@@ -154,7 +154,7 @@
 
 	<!-- Real Application Data Summary Metrics Strip -->
 	<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-		<div class="p-1 rounded-2xl bg-slate-900/[0.03] border border-slate-200/80 shadow-2xs hover:border-indigo-300 transition-colors">
+		<div class="p-1 rounded-2xl bg-slate-900/[0.03] border border-indigo-200/70 hover:border-indigo-400/80 shadow-2xs transition-all duration-200">
 			<div class="bg-white rounded-[calc(1rem-0.25rem)] p-4 flex items-center gap-3.5 border border-slate-100">
 				<div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 border border-indigo-100 flex items-center justify-center shrink-0">
 					<Mail class="w-5 h-5" />
@@ -166,7 +166,7 @@
 			</div>
 		</div>
 
-		<div class="p-1 rounded-2xl bg-slate-900/[0.03] border border-slate-200/80 shadow-2xs hover:border-indigo-300 transition-colors">
+		<div class="p-1 rounded-2xl bg-slate-900/[0.03] border border-violet-200/70 hover:border-violet-400/80 shadow-2xs transition-all duration-200">
 			<div class="bg-white rounded-[calc(1rem-0.25rem)] p-4 flex items-center gap-3.5 border border-slate-100">
 				<div class="w-10 h-10 rounded-xl bg-violet-50 text-violet-600 border border-violet-100 flex items-center justify-center shrink-0">
 					<Volume2 class="w-5 h-5" />
@@ -189,7 +189,7 @@
 			</div>
 		</div>
 
-		<div class="p-1 rounded-2xl bg-slate-900/[0.03] border border-slate-200/80 shadow-2xs hover:border-indigo-300 transition-colors">
+		<div class="p-1 rounded-2xl bg-slate-900/[0.03] border border-emerald-200/70 hover:border-emerald-400/80 shadow-2xs transition-all duration-200">
 			<div class="bg-white rounded-[calc(1rem-0.25rem)] p-4 flex items-center gap-3.5 border border-slate-100">
 				<div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center justify-center shrink-0">
 					<CheckCircle2 class="w-5 h-5" />
@@ -209,11 +209,8 @@
 	<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 		<!-- Email Alerts & Test Studio Card -->
 		<div
-			class="p-2 rounded-[2.25rem] bg-gradient-to-b from-slate-900/[0.04] via-slate-900/[0.02] to-indigo-900/[0.04] border border-slate-200/90 shadow-md hover:shadow-xl hover:shadow-indigo-500/15 hover:border-indigo-300 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-1.5 group relative overflow-hidden"
+			class="p-1.5 rounded-[2.25rem] bg-gradient-to-b from-slate-900/[0.03] to-indigo-900/[0.03] border border-indigo-200/70 hover:border-indigo-400/80 hover:ring-1 hover:ring-indigo-400/20 shadow-md hover:shadow-xl hover:shadow-indigo-500/15 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-1.5 group relative overflow-hidden"
 		>
-			<!-- Top Accent Glow Line on Hover -->
-			<div class="absolute top-0 left-6 right-6 h-[3px] bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 scale-x-75 group-hover:scale-x-100"></div>
-
 			<div
 				class="bg-white rounded-[calc(2.25rem-0.5rem)] p-6 sm:p-7 space-y-6 border border-slate-100/90 shadow-[inset_0_1px_1px_rgba(255,255,255,0.9)] h-full flex flex-col justify-between"
 			>
@@ -303,11 +300,8 @@
 
 		<!-- Desktop Push Notifications Card -->
 		<div
-			class="p-2 rounded-[2.25rem] bg-gradient-to-b from-slate-900/[0.04] via-slate-900/[0.02] to-violet-900/[0.04] border border-slate-200/90 shadow-md hover:shadow-xl hover:shadow-violet-500/15 hover:border-violet-300 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-1.5 group relative overflow-hidden"
+			class="p-1.5 rounded-[2.25rem] bg-gradient-to-b from-slate-900/[0.03] to-violet-900/[0.03] border border-violet-200/70 hover:border-violet-400/80 hover:ring-1 hover:ring-violet-400/20 shadow-md hover:shadow-xl hover:shadow-violet-500/15 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-1.5 group relative overflow-hidden"
 		>
-			<!-- Top Accent Glow Line on Hover -->
-			<div class="absolute top-0 left-6 right-6 h-[3px] bg-gradient-to-r from-violet-500 via-indigo-500 to-violet-500 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 scale-x-75 group-hover:scale-x-100"></div>
-
 			<div
 				class="bg-white rounded-[calc(2.25rem-0.5rem)] p-6 sm:p-7 space-y-6 border border-slate-100/90 shadow-[inset_0_1px_1px_rgba(255,255,255,0.9)] h-full flex flex-col justify-between"
 			>

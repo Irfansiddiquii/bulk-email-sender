@@ -155,52 +155,61 @@
 		<!-- Stats Grid -->
 		<div class="grid grid-cols-2 md:grid-cols-4 gap-6">
 			<!-- Total Sent -->
-			<div class="bg-white rounded-2xl border border-slate-200/60 p-4.5 shadow-sm flex items-start gap-4">
-				<div class="p-2.5 bg-indigo-50 border border-indigo-100 rounded-xl text-indigo-600 shrink-0">
-					<BarChart3 class="w-5 h-5" />
-				</div>
-				<div>
-					<span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Total Attempts</span>
-					<span class="text-xl font-bold text-slate-800 mt-1 block">{stats.total}</span>
+			<div class="p-1 rounded-2xl bg-slate-900/[0.03] border border-indigo-200/70 hover:border-indigo-400/80 shadow-2xs transition-all duration-200">
+				<div class="bg-white rounded-[calc(1rem-0.25rem)] p-4 flex items-start gap-4 border border-slate-100">
+					<div class="p-2.5 bg-indigo-50 border border-indigo-100 rounded-xl text-indigo-600 shrink-0">
+						<BarChart3 class="w-5 h-5" />
+					</div>
+					<div>
+						<span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Total Attempts</span>
+						<span class="text-xl font-bold text-slate-800 mt-1 block">{stats.total}</span>
+					</div>
 				</div>
 			</div>
 
 			<!-- Success -->
-			<div class="bg-white rounded-2xl border border-slate-200/60 p-4.5 shadow-sm flex items-start gap-4">
-				<div class="p-2.5 bg-emerald-50 border border-emerald-100 rounded-xl text-emerald-600 shrink-0">
-					<MailCheck class="w-5 h-5" />
-				</div>
-				<div>
-					<span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Successful Sends</span>
-					<span class="text-xl font-bold text-slate-800 mt-1 block">{stats.success}</span>
+			<div class="p-1 rounded-2xl bg-slate-900/[0.03] border border-emerald-200/70 hover:border-emerald-400/80 shadow-2xs transition-all duration-200">
+				<div class="bg-white rounded-[calc(1rem-0.25rem)] p-4 flex items-start gap-4 border border-slate-100">
+					<div class="p-2.5 bg-emerald-50 border border-emerald-100 rounded-xl text-emerald-600 shrink-0">
+						<MailCheck class="w-5 h-5" />
+					</div>
+					<div>
+						<span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Successful Sends</span>
+						<span class="text-xl font-bold text-slate-800 mt-1 block">{stats.success}</span>
+					</div>
 				</div>
 			</div>
 
 			<!-- Failed -->
-			<div class="bg-white rounded-2xl border border-slate-200/60 p-4.5 shadow-sm flex items-start gap-4">
-				<div class="p-2.5 bg-rose-50 border border-rose-100 rounded-xl text-rose-600 shrink-0">
-					<ShieldAlert class="w-5 h-5" />
-				</div>
-				<div>
-					<span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Failed Sends</span>
-					<span class="text-xl font-bold text-slate-800 mt-1 block">{stats.failed}</span>
+			<div class="p-1 rounded-2xl bg-slate-900/[0.03] border border-rose-200/70 hover:border-rose-400/80 shadow-2xs transition-all duration-200">
+				<div class="bg-white rounded-[calc(1rem-0.25rem)] p-4 flex items-start gap-4 border border-slate-100">
+					<div class="p-2.5 bg-rose-50 border border-rose-100 rounded-xl text-rose-600 shrink-0">
+						<ShieldAlert class="w-5 h-5" />
+					</div>
+					<div>
+						<span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Failed Sends</span>
+						<span class="text-xl font-bold text-slate-800 mt-1 block">{stats.failed}</span>
+					</div>
 				</div>
 			</div>
 
 			<!-- Success Rate -->
-			<div class="bg-white rounded-2xl border border-slate-200/60 p-4.5 shadow-sm flex items-start gap-4">
-				<div class="p-2.5 bg-violet-50 border border-violet-100 rounded-xl text-violet-600 shrink-0">
-					<Sparkles class="w-5 h-5" />
-				</div>
-				<div>
-					<span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Delivery Rate</span>
-					<span class="text-xl font-bold text-slate-800 mt-1 block">{stats.successRate}</span>
+			<div class="p-1 rounded-2xl bg-slate-900/[0.03] border border-violet-200/70 hover:border-violet-400/80 shadow-2xs transition-all duration-200">
+				<div class="bg-white rounded-[calc(1rem-0.25rem)] p-4 flex items-start gap-4 border border-slate-100">
+					<div class="p-2.5 bg-violet-50 border border-violet-100 rounded-xl text-violet-600 shrink-0">
+						<Sparkles class="w-5 h-5" />
+					</div>
+					<div>
+						<span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Delivery Rate</span>
+						<span class="text-xl font-bold text-slate-800 mt-1 block">{stats.successRate}</span>
+					</div>
 				</div>
 			</div>
 		</div>
 
 		<!-- Log Viewer Panel -->
-		<div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-4">
+		<div class="p-1.5 rounded-[2.25rem] bg-gradient-to-b from-slate-900/[0.03] to-indigo-900/[0.03] border border-indigo-200/70 hover:border-indigo-400/80 hover:ring-1 hover:ring-indigo-400/20 shadow-md hover:shadow-xl transition-all duration-300 relative overflow-hidden group">
+			<div class="bg-white border border-slate-100/90 rounded-[calc(2.25rem-0.5rem)] p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,0.9)] space-y-4">
 			<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
 				<h3 class="font-bold text-slate-800 text-base">Detailed Activity Logs</h3>
 				{#if logs.length > 0}
@@ -306,6 +315,7 @@
 					</div>
 				{/if}
 			{/if}
+			</div>
 		</div>
 	{/if}
 </div>
