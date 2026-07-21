@@ -57,11 +57,14 @@
 
 {#if mobileMenuOpen}
 	<!-- Overlay backdrop -->
-	<div 
+	<button 
+		type="button"
+		aria-label="Close Mobile Navigation Menu"
 		transition:fade={{ duration: 250 }} 
-		class="md:hidden fixed inset-0 top-[57px] bg-[#090d16]/40 backdrop-blur-md z-40"
+		class="md:hidden fixed inset-0 top-[57px] w-full h-full bg-[#090d16]/40 backdrop-blur-md z-40 cursor-default border-none outline-none"
 		on:click={() => mobileMenuOpen = false}
-	></div>
+		on:keydown={(e) => { if (e.key === 'Escape') mobileMenuOpen = false; }}
+	></button>
 
 	<!-- Menu content -->
 	<div 
