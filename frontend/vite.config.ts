@@ -6,7 +6,7 @@ export default defineConfig({
 	server: {
 		proxy: {
 			'/auth': 'http://localhost:3000',
-			'/config': 'http://localhost:3000',
+			'/config/': 'http://localhost:3000',
 			'/send': 'http://localhost:3000',
 			'/report': 'http://localhost:3000',
 			'/dashboard/poll-status': 'http://localhost:3000',
