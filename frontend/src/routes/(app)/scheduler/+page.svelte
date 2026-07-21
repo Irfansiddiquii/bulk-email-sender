@@ -549,7 +549,7 @@
 										<td class="px-6 py-4">
 											<span class="inline-flex items-center gap-1.5 font-mono text-xs text-slate-700 bg-slate-100/70 px-2.5 py-1 rounded-lg border border-slate-200/60">
 												<Clock class="w-3 h-3 text-slate-400" />
-												{new Date(job.scheduled_time).toLocaleString()}
+												{new Date(job.scheduled_time || job.scheduledTime || Date.now()).toLocaleString()}
 											</span>
 										</td>
 										<td class="px-6 py-4">

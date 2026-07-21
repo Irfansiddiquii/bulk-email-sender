@@ -652,7 +652,7 @@
 										<td
 											class="px-6 py-4 text-slate-500 font-medium"
 											>{new Date(
-												job.scheduled_time,
+												job.scheduled_time || job.scheduledTime || Date.now(),
 											).toLocaleString()}</td
 										>
 										<td
