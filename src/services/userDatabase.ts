@@ -90,7 +90,11 @@ class UserDatabase {
 
     this.db = new Database(dbPath);
     this.initDatabase();
-
+    
+        console.log("process.cwd():", process.cwd());
+        console.log("SESSION_SECRET =", process.env.SESSION_SECRET);
+        console.log("All env keys:", Object.keys(process.env).filter(k => k.includes("SESSION")));
+      
     // Initialize session secret
     this.sessionSecret = process.env.SESSION_SECRET || this.generateFallbackSecret();
 
