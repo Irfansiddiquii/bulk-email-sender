@@ -164,7 +164,7 @@ Bulk Email Sender is a production-ready email marketing platform that allows use
 ## 📥 Clone Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/your-username/bulk-email-sender.git
 cd bulk-email-sender
 ```
 
