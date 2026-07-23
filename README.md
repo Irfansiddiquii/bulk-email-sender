@@ -1,106 +1,290 @@
-# 🚀 Bulk Email Sender - SvelteKit Frontend Migration Project
+<div align="center">
 
-## 📋 Project Overview
+# 📧 Bulk Email Sender
 
-This project has been migrated from a **Hono (Bun)** backend serving vanilla HTML files to:
-- **Backend**: Pure Node.js runtime using Hono's `@hono/node-server`, `better-sqlite3`, and `tsx` watcher.
-- **Frontend**: A modern **SvelteKit** application powered by **Tailwind CSS**, **TipTap WYSIWYG**, and **Lucide Svelte** icons.
+### 🚀 A Modern Full-Stack Bulk Email Platform
+
+<p align="center">
+Built with ❤️ using <b>SvelteKit</b>, <b>Hono</b>, <b>TypeScript</b>, <b>SQLite</b> & <b>Nodemailer</b>
+</p>
+
+<p align="center">
+
+![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=for-the-badge&logo=typescript)
+![SvelteKit](https://img.shields.io/badge/SvelteKit-Latest-ff3e00?style=for-the-badge&logo=svelte)
+![Hono](https://img.shields.io/badge/Hono-Framework-orange?style=for-the-badge)
+![SQLite](https://img.shields.io/badge/SQLite-Database-003B57?style=for-the-badge&logo=sqlite)
+![NodeJS](https://img.shields.io/badge/Node.js-22.x-green?style=for-the-badge&logo=node.js)
+![License](https://img.shields.io/badge/License-MIT-success?style=for-the-badge)
+
+</p>
 
 ---
 
-## 🏗️ Architecture & Folder Structure
+# 🌍 Live Application
+
+## 🖥️ Frontend
+
+👉 https://bulk-email-sender-frontend.onrender.com
+
+## ⚙️ Backend API
+
+👉 https://bulk-email-sender-api.onrender.com
+
+---
+
+# ✨ Project Overview
+
+Bulk Email Sender is a production-ready email marketing platform that allows users to securely manage SMTP servers, create email templates, manage contacts, compose rich emails, schedule campaigns, and monitor delivery reports through an intuitive dashboard.
+
+---
+
+# 🚀 Key Features
+
+## 🔐 Authentication
+
+✅ Secure Registration
+
+✅ Login & Logout
+
+✅ Session Authentication
+
+✅ Argon2 Password Encryption
+
+✅ Protected Routes
+
+---
+
+## 📨 Email Composer
+
+✨ Rich Text Editor
+
+✨ HTML Email Support
+
+✨ Multiple Recipients
+
+✨ Bulk Email Sending
+
+---
+
+## 📬 SMTP Management
+
+📌 Multiple SMTP Accounts
+
+📌 Default SMTP Selection
+
+📌 Secure Credential Storage
+
+📌 Easy Configuration
+
+---
+
+## 👥 Contact Management
+
+➕ Add Contacts
+
+✏️ Edit Contacts
+
+🗑 Delete Contacts
+
+🔍 Search Contacts
+
+---
+
+## 📝 Email Templates
+
+📄 Create Templates
+
+🖊 Edit Templates
+
+📚 Reusable Templates
+
+🗑 Delete Templates
+
+---
+
+## 📊 Dashboard
+
+📈 Email Statistics
+
+📉 Success Rate
+
+📋 Activity Logs
+
+📬 Delivery Reports
+
+---
+
+## ⏰ Email Scheduler
+
+🕒 Schedule Campaigns
+
+📅 Future Delivery
+
+📌 Scheduled Queue
+
+---
+
+# 🛠 Tech Stack
+
+| Frontend | Backend | Database | Security |
+|-----------|----------|----------|-----------|
+| ⚡ SvelteKit | 🚀 Hono | 🗄 SQLite | 🔐 Argon2 |
+| TypeScript | Node.js | SQL | Secure Sessions |
+| Bootstrap 5 | REST API | | Cookies |
+
+---
+
+# 📂 Folder Structure
 
 ```text
-├── data/                  # SQLite Databases (users.db, scheduler.db)
-├── uploads/               # Excel attachment uploads directory
-├── logs/                  # Dispatch audit logs directory
-├── src/                   # Backend Node.js API codebase (Hono)
-│   ├── services/          # SQLite user/batch/scheduler service modules
-│   ├── middleware/        # Authentication sessions validation
-│   └── app.ts             # Application entrypoint using @hono/node-server
-├── frontend/              # SvelteKit Single Page Application
-│   ├── src/
-│   │   ├── lib/
-│   │   │   ├── api/       # Central Axios client configuration
-│   │   │   ├── stores/    # Auth, SMTP Configs, and Toast alerts state
-│   │   │   └── components/# TipTap rich-text editor wrapper
-│   │   ├── routes/        # App page routes (login, register, configs, compose, reports)
-│   │   ├── app.html       # HTML entry shell
-│   │   └── app.css        # Tailwind utility loader
-│   ├── tailwind.config.js # Tailwind CSS configuration
-│   └── vite.config.ts     # Vite proxy forwarding API endpoints to backend
-└── package.json           # Backend dependencies and scripts
+📦 bulk-email-sender
+│
+├── 📁 frontend
+│   ├── 📁 src
+│   ├── 📁 static
+│   └── package.json
+│
+├── 📁 src
+│   ├── 📁 routes
+│   ├── 📁 services
+│   ├── 📁 middleware
+│   ├── 📁 database
+│   └── 📁 utils
+│
+├── 📁 data
+├── package.json
+└── README.md
 ```
 
 ---
 
-## ⚡ Development & Running Setup
+# ⚙️ Installation
 
-Follow these steps to run the application locally.
+## 📥 Clone Repository
 
-### 1. Backend Server Setup
-From the project root workspace directory:
 ```bash
-# 1. Install Node.js backend dependencies
-npm install
-
-# 2. Start Hono API server in watch mode (running on port 3000)
-npm run dev
+git clone <repository-url>
+cd bulk-email-sender
 ```
 
-### 2. Frontend SvelteKit Setup
-In a new terminal window:
+---
+
+## 📦 Install Backend
+
 ```bash
-# 1. Navigate to frontend directory
+npm install
+```
+
+---
+
+## 📦 Install Frontend
+
+```bash
 cd frontend
-
-# 2. Install SvelteKit dependencies
 npm install
+```
 
-# 3. Start SvelteKit development server (running on port 5173)
+---
+
+## ▶️ Run Backend
+
+```bash
 npm run dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173) in your browser to experience the migrated, premium application.
-
 ---
 
-## 🧹 Legacy Frontend Removal
+## ▶️ Run Frontend
 
-The legacy public static files are now obsolete. You can delete the `public` directory from the root directory:
 ```bash
-rm -rf public
+cd frontend
+npm run dev
 ```
 
 ---
 
-## 📡 API Reference
+# 🔑 Environment Variables
 
-- **Auth Routes**:
-  - `POST /auth/register` - User registration
-  - `POST /auth/login` - User login
-  - `POST /auth/logout` - User logout
-  - `GET /user/info` - Get current session user info
-- **SMTP Configuration**:
-  - `GET /config/smtp` - Retrieve SMTP configurations
-  - `POST /config/smtp` - Add new SMTP configuration
-  - `PUT /config/smtp/:id` - Update SMTP configuration
-  - `DELETE /config/smtp/:id` - Delete SMTP configuration
-  - `POST /config/smtp/:id/default` - Set SMTP configuration as primary default
-  - `POST /config/smtp/test` - Diagnostic connection test
-- **Campaign Sends**:
-  - `POST /send` - Dispatch/schedule campaign (Multi-part form)
-  - `POST /parse-excel` - Recipient spreadsheet parse check
-  - `GET /scheduled-jobs` - Get pending schedule lists
-  - `DELETE /scheduled-jobs/:id` - Cancel scheduled email job
-- **Batch Monitoring**:
-  - `GET /batch-status` - Active progress percentage checks
-  - `POST /batch-pause` - Pause sending loop
-  - `POST /batch-resume` - Resume sending loop
-  - `DELETE /batch-cancel` - Clear batch queue
-- **Analytics & Logs**:
-  - `GET /report` - Log list & statistics counters
-  - `GET /report/export/csv` - Download CSV stream
-  - `GET /report/export/json` - Download JSON stream
-  - `DELETE /report/clear` - Reset log history
+### Backend
 
+```env
+SESSION_SECRET=your_secret_key
+PORT=3000
+```
+
+### Frontend
+
+```env
+VITE_API_URL=http://localhost:3000
+```
+
+---
+
+# 🎯 Assignment Deliverables
+
+✅ Frontend migrated from Vanilla JavaScript to SvelteKit
+
+✅ Existing Hono Backend preserved
+
+✅ Authentication implemented
+
+✅ SMTP Management
+
+✅ Bulk Email Sending
+
+✅ Contact Management
+
+✅ Email Templates
+
+✅ Dashboard
+
+✅ Reports
+
+✅ Production Deployment
+
+---
+
+# 🔒 Security Features
+
+🛡 Argon2 Password Hashing
+
+🔐 Secure Sessions
+
+🍪 HTTP Only Cookies
+
+🌍 CORS Protection
+
+🚫 Protected APIs
+
+---
+
+# 🚀 Future Enhancements
+
+📎 File Attachments
+
+📤 CSV Import & Export
+
+🔔 Real-time Notifications
+
+📈 Analytics Dashboard
+
+⚡ Background Workers
+
+---
+
+# 👨‍💻 Developed By
+
+**Irfan Siddiqui**
+
+💙 Full Stack Developer
+
+---
+
+<div align="center">
+
+### ⭐ If you like this project, don't forget to Star the Repository ⭐
+
+Made with ❤️ using SvelteKit & Hono
+
+</div>
