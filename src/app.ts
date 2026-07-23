@@ -162,7 +162,7 @@ setTimeout(async () => {
   }
 }, 1000);
 
-if (typeof Bun === "undefined") {
+if (typeof (globalThis as any).Bun === "undefined") {
   const { serve } = require("@hono/node-server");
   serve({
     fetch: app.fetch,

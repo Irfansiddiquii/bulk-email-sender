@@ -42,12 +42,15 @@ class LogService {
     this.saveLogs();
   }
 
-  getLogs(userId: string): EmailLog[] {
+  getLogs(userId?: string): EmailLog[] {
+    if (!userId) return this.logs;
     return this.logs.filter((log) => log.userId === userId);
   }
 
-  getLogsAsCSV(userId: string): string {
-    const userLogs = this.logs.filter((log) => log.userId === userId);
+  getLogsAsCSV(userId?: string): string {
+    const userLogs = userId
+      ? this.logs.filter((log) => log.userId === userId)
+      : this.logs;
     return stringify(userLogs, {
       header: true,
       columns: [
@@ -64,18 +67,26 @@ class LogService {
     });
   }
 
-  getLogsAsJSON(userId: string): string {
-    const userLogs = this.logs.filter((log) => log.userId === userId);
+  getLogsAsJSON(userId?: string): string {
+    const userLogs = userId
+      ? this.logs.filter((log) => log.userId === userId)
+      : this.logs;
     return JSON.stringify(userLogs, null, 2);
   }
 
-  clearLogs(userId: string) {
-    this.logs = this.logs.filter((log) => log.userId !== userId);
+  clearLogs(userId?: string) {
+    if (!userId) {
+      this.logs = [];
+    } else {
+      this.logs = this.logs.filter((log) => log.userId !== userId);
+    }
     this.saveLogs();
   }
 
-  getStats(userId: string) {
-    const userLogs = this.logs.filter((log) => log.userId === userId);
+  getStats(userId?: string) {
+    const userLogs = userId
+      ? this.logs.filter((log) => log.userId === userId)
+      : this.logs;
     const total = userLogs.length;
     const sent = userLogs.filter((log) => log.status === "Sent").length;
     const failed = userLogs.filter((log) => log.status === "Failed").length;

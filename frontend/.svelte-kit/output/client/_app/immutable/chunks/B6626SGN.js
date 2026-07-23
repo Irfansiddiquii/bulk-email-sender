@@ -1,0 +1,1 @@
+import{b as r}from"./DMwZB4hl.js";const t={getReports:()=>r.get("/report"),clearLogs:()=>r.delete("/report/clear"),getCSVExportURL:()=>"/report/export/csv",getJSONExportURL:()=>"/report/export/json"};export{t as r};

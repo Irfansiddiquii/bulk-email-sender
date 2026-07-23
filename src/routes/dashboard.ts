@@ -19,7 +19,8 @@ app.get("/dashboard/poll-status", (c) => {
       const batchStatus = batchService.getBatchStatus(user.id);
       hasActiveBatch = batchStatus.isRunning;
     } catch (error) {
-      console.warn("Batch service not available:", error.message);
+      const msg = error instanceof Error ? error.message : String(error);
+      console.warn("Batch service not available:", msg);
       hasActiveBatch = false;
     }
 
@@ -30,9 +31,10 @@ app.get("/dashboard/poll-status", (c) => {
       hasScheduledJobs = scheduledJobs && scheduledJobs.length > 0;
       hasRunningScheduledJobs =
         scheduledJobs &&
-        scheduledJobs.some((job) => job.status === "running");
+        scheduledJobs.some((job: any) => job.status === "running");
     } catch (error) {
-      console.warn("Scheduler service not available:", error.message);
+      const msg = error instanceof Error ? error.message : String(error);
+      console.warn("Scheduler service not available:", msg);
       hasScheduledJobs = false;
     }
 
@@ -100,7 +102,8 @@ app.get("/dashboard/data", (c) => {
         batchStatus = status;
       }
     } catch (error) {
-      console.warn("Batch service unavailable:", error.message);
+      const msg = error instanceof Error ? error.message : String(error);
+      console.warn("Batch service unavailable:", msg);
     }
 
     // Fetch scheduled jobs for current user
@@ -109,7 +112,8 @@ app.get("/dashboard/data", (c) => {
       const userJobs = schedulerService.getUserScheduledJobs(user.id);
       scheduledJobs = userJobs.slice(0, 5);
     } catch (error) {
-      console.warn("Scheduler service unavailable:", error.message);
+      const msg = error instanceof Error ? error.message : String(error);
+      console.warn("Scheduler service unavailable:", msg);
     }
 
     return c.json({

@@ -8,7 +8,7 @@ import { existsSync, mkdirSync } from "fs";
 import { dirname } from "path";
 
 let Database: any;
-if (typeof Bun !== "undefined") {
+if (typeof (globalThis as any).Bun !== "undefined") {
   Database = require("bun:sqlite").default;
 } else {
   const { DatabaseSync } = require("node:sqlite");
@@ -44,8 +44,8 @@ if (typeof Bun !== "undefined") {
 }
 
 class SchedulerService {
-  private db: Database;
-  private schedulerInterval: Timer | null = null;
+  private db: any;
+  private schedulerInterval: ReturnType<typeof setInterval> | null = null;
 
   constructor() {
     // Ensure data directory exists
