@@ -1,8 +1,12 @@
 import axios from 'axios';
 
+const API_URL =
+	import.meta.env.VITE_API_URL ||
+	'https://bulk-email-sender-api.onrender.com';
+
 export const apiClient = axios.create({
-	baseURL: '', // Blank baseURL resolves relative paths proxied by Vite dev server
-	withCredentials: true, // Includes session cookies automatically
+	baseURL: API_URL,
+	withCredentials: true,
 	headers: {
 		'Content-Type': 'application/json'
 	}
