@@ -55,8 +55,8 @@ app.post("/auth/register", async (c) => {
 
       setCookie(c, "session_token", token, {
         httpOnly: true,
-        secure: isHTTPS, // Only secure if actually on HTTPS
-        sameSite: "Lax",
+        secure: true,
+        sameSite: "None",
         maxAge: 24 * 60 * 60,
         path: "/",
       });
@@ -126,8 +126,8 @@ app.post("/auth/login", async (c) => {
 
     setCookie(c, "session_token", token, {
       httpOnly: true,
-      secure: isHTTPS, // Only secure if actually on HTTPS
-      sameSite: "Lax",
+      secure: true,
+      sameSite: "None",
       maxAge: 24 * 60 * 60,
       path: "/",
     });
@@ -162,7 +162,11 @@ app.post("/auth/logout", async (c) => {
       userDatabase.deleteSession(token);
     }
 
-    deleteCookie(c, "session_token");
+    deleteCookie(c, "session_token", {
+      path: "/",
+      secure: true,
+      sameSite: "None",
+    });
 
     return c.json({
       success: true,
