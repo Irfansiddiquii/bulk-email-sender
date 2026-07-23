@@ -1,3 +1,20 @@
+## Assignment Information
+
+This project is my submission for the Full Stack Developer Assignment.
+
+### Objectives Completed
+
+- ✅ Frontend migrated from Vanilla JavaScript to SvelteKit
+- ✅ Existing Hono backend preserved
+- ✅ Backend logic unchanged
+- ✅ Database structure unchanged
+- ✅ Production-ready architecture
+- ✅ Authentication maintained
+- ✅ Responsive UI
+- ✅ Deployment completed
+
+
+
 <div align="center">
 
 # 📧 Bulk Email Sender
