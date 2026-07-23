@@ -1,3 +1,66 @@
+---
+
+# 🎯 Assignment Submission
+
+> **📌 Full Stack Developer Assignment Submission**
+
+This repository contains my submission for the **Full Stack Developer Assignment**, where the objective was to migrate the existing frontend to a modern framework while preserving the backend architecture and database.
+
+---
+
+# ✅ Assignment Objectives Completed
+
+| Status | Objective |
+| :---: | --- |
+| ✅ | Migrated Frontend from **Vanilla JavaScript** to **SvelteKit** |
+| ✅ | Preserved the existing **Hono Backend** |
+| ✅ | Backend logic remained completely unchanged |
+| ✅ | Database structure was preserved |
+| ✅ | Followed a scalable and production-ready architecture |
+| ✅ | Implemented secure Authentication & Session Management |
+| ✅ | Built a responsive and modern UI |
+| ✅ | Successfully deployed Frontend & Backend on Render |
+
+---
+
+# 🏆 Highlights
+
+✨ Modern **SvelteKit** Frontend
+
+⚡ Existing **Hono Backend** Preserved
+
+🔐 Secure Authentication using **Argon2**
+
+📧 SMTP Configuration Management
+
+👥 Contact Management
+
+📝 Email Templates
+
+📊 Dashboard & Reports
+
+🚀 Production Deployment on Render
+
+📂 Clean Folder Structure
+
+🛠️ Scalable Architecture
+
+---
+
+<div align="center">
+
+### 🎉 Assignment Successfully Completed
+
+**Thank you for reviewing my submission.**
+
+⭐ If you found this project interesting, feel free to explore the repository.
+
+</div>
+
+
+
+
+
 <div align="center">
 
 # 📧 Bulk Email Sender
