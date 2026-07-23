@@ -9,6 +9,7 @@ export interface Contact {
 }
 
 export interface EmailLog {
+  userId?: string;
   id: string;
   email: string;
   status: "Sent" | "Failed" | "Error";

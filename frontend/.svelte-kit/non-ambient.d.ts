@@ -52,6 +52,6 @@ declare module "$app/types" {
 		};
 		Pathname(): "/" | "/compose" | "/configs" | "/contacts" | "/dashboard" | "/history" | "/login" | "/notifications" | "/profile" | "/register" | "/reports" | "/scheduler" | "/settings" | "/templates";
 		ResolvedPathname(): `${"" | `/${string}`}${ReturnType<AppTypes['Pathname']>}`;
-		Asset(): string & {};
+		Asset(): "/favicon.svg" | string & {};
 	}
 }

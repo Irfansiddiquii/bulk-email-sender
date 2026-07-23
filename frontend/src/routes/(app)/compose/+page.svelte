@@ -135,9 +135,10 @@
 			const res = await sendApi.parseExcel(excelFile);
 			if (res.data.success) {
 				totalContacts = res.data.totalCount;
-				sampleContacts = res.data.contacts || [];
-				if (sampleContacts.length > 0) {
-					columns = Object.keys(sampleContacts[0]);
+				const fullContacts = res.data.contacts || [];
+				sampleContacts = fullContacts.slice(0, 5);
+				if (fullContacts.length > 0) {
+					columns = Object.keys(fullContacts[0]);
 				}
 				rangeTo = totalContacts;
 				toastStore.success(`Excel file parsed: ${totalContacts} contacts found.`);
@@ -252,7 +253,8 @@
 		// Scheduling config
 		formData.append('scheduleEmail', scheduleEmail ? 'on' : 'off');
 		if (scheduleEmail) {
-			formData.append('scheduledTime', scheduledTime);
+			const utcTime = new Date(scheduledTime).toISOString();
+			formData.append('scheduledTime', utcTime);
 			formData.append('notifyEmail', notifyEmail);
 			if (notifyBrowser) formData.append('notifyBrowser', 'on');
 		}

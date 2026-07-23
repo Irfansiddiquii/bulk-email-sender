@@ -38,16 +38,24 @@ export interface ReportLog {
 	messageId?: string;
 }
 
+export interface BatchJob {
+	id: string;
+	totalContacts: number;
+	currentBatch: number;
+	totalBatches: number;
+	emailsSent: number;
+	emailsFailed: number;
+	status: string;
+	startTime: string;
+	config?: any;
+	emailJob?: any;
+	delay?: number;
+	userId?: string;
+}
+
 export interface BatchStatus {
 	isRunning: boolean;
-	isPaused: boolean;
-	total: number;
-	sent: number;
-	failed: number;
-	elapsedSeconds: number;
-	remainingSeconds?: number;
-	emailDelay: number;
-	batchSize: number;
-	batchDelay: number;
-	currentBatchCount?: number;
+	currentJob: BatchJob | null;
+	totalJobs?: number;
+	completedJobs?: number;
 }

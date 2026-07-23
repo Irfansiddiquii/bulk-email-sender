@@ -1,10 +1,10 @@
 // src/app.ts - UPDATED WITH USER MANAGEMENT
+import "dotenv/config";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
 import { mkdir } from "fs/promises";
 import { existsSync } from "fs";
-import { config } from "dotenv";
 import { getCookie, deleteCookie } from "hono/cookie";
 
 // Import middleware
@@ -16,9 +16,6 @@ import sendRoutes from "./routes/send";
 import reportRoutes from "./routes/report";
 import configRoutes from "./routes/config";
 import dashboardRoutes from "./routes/dashboard";
-
-// Load environment variables
-config();
 
 const app = new Hono();
 

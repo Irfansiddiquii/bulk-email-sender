@@ -229,17 +229,33 @@
 		}
 	}
 
-	// Utility calculations
-	$: percentComplete = batchStatus
-		? Math.round((batchStatus.sent / batchStatus.total) * 100)
+	$: percentComplete = batchStatus && batchStatus.currentJob
+		? Math.round((batchStatus.currentJob.emailsSent / batchStatus.currentJob.totalContacts) * 100)
 		: 0;
 	$: timeRemainingText = () => {
-		if (!batchStatus || !batchStatus.remainingSeconds)
+		if (!batchStatus || !batchStatus.currentJob)
 			return "Calculating...";
-		const secs = batchStatus.remainingSeconds;
-		if (secs < 60) return `${secs} seconds`;
-		const mins = Math.ceil(secs / 60);
-		return `${mins} min`;
+		const job = batchStatus.currentJob;
+		const remaining = job.totalContacts - job.emailsSent - job.emailsFailed;
+		if (remaining <= 0) return "0 seconds";
+		
+		const emailDelay = job.config?.emailDelay || 45;
+		let totalSecs = remaining * emailDelay;
+		
+		const batchSize = job.config?.batchSize || 20;
+		const batchDelay = job.config?.batchDelay || 60; // minutes
+		const currentBatchRemaining = batchSize - (job.emailsSent % batchSize);
+		if (remaining > currentBatchRemaining) {
+			const extraBatches = Math.ceil((remaining - currentBatchRemaining) / batchSize);
+			totalSecs += extraBatches * batchDelay * 60;
+		}
+
+		if (totalSecs < 60) return `${totalSecs} seconds`;
+		const mins = Math.ceil(totalSecs / 60);
+		if (mins < 60) return `${mins} min`;
+		const hrs = Math.floor(mins / 60);
+		const remMins = mins % 60;
+		return `${hrs}h ${remMins}m`;
 	};
 </script>
 
@@ -324,8 +340,8 @@
 						<span
 							class="text-xl font-extrabold text-slate-900 mt-1 block tracking-tight truncate"
 						>
-							{#if batchStatus}
-								{batchStatus.sent} / {batchStatus.total}
+							{#if batchStatus && batchStatus.currentJob}
+								{batchStatus.currentJob.emailsSent} / {batchStatus.currentJob.totalContacts}
 							{:else}
 								Inactive
 							{/if}
@@ -333,7 +349,7 @@
 						<span
 							class="text-[10px] text-slate-400 font-medium block mt-1 truncate"
 						>
-							{#if batchStatus}
+							{#if batchStatus && batchStatus.currentJob}
 								Campaign in progress
 							{:else}
 								No active send queue
@@ -447,7 +463,7 @@
 		</div>
 
 		<!-- Live Send Monitor (Progress Bar) -->
-		{#if batchStatus}
+		{#if batchStatus && batchStatus.currentJob}
 			<div
 				class="p-1.5 bg-gradient-to-b from-slate-900/[0.03] to-indigo-900/[0.03] border border-indigo-200/70 hover:border-indigo-400/80 hover:ring-1 hover:ring-indigo-400/20 rounded-[2.25rem] transition-all duration-300 shadow-md hover:shadow-xl relative overflow-hidden group"
 			>
@@ -461,7 +477,7 @@
 							<span
 								class="bg-indigo-50 border border-indigo-100 text-indigo-600 font-bold text-[9px] tracking-[0.12em] uppercase px-3 py-1 rounded-full inline-block mb-2"
 							>
-								{#if batchStatus.isPaused}
+								{#if batchStatus.currentJob.status === 'Paused'}
 									PAUSED
 								{:else}
 									ACTIVE DISPATCH CAMPAIGN
@@ -474,7 +490,7 @@
 							</h3>
 						</div>
 						<div class="flex gap-2.5 self-stretch sm:self-auto">
-							{#if batchStatus.isPaused}
+							{#if batchStatus.currentJob.status === 'Paused'}
 								<button
 									on:click={resumeBatch}
 									class="flex-grow sm:flex-grow-0 bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-2.5 rounded-xl text-[11px] uppercase tracking-wider flex items-center justify-center gap-2 transition-all duration-300 hover:scale-105 active:scale-95 shadow-md shadow-emerald-600/15"
@@ -506,11 +522,11 @@
 						<div class="flex justify-between text-xs font-semibold">
 							<span class="text-slate-500"
 								>Sent emails: <strong class="text-slate-800"
-									>{batchStatus.sent}</strong
+									>{batchStatus.currentJob.emailsSent}</strong
 								>
 								/
 								<strong class="text-slate-800"
-									>{batchStatus.total}</strong
+									>{batchStatus.currentJob.totalContacts}</strong
 								></span
 							>
 							<span
@@ -526,7 +542,7 @@
 								style="width: {percentComplete}%"
 							>
 								<!-- Light beam overlay for running progress -->
-								{#if !batchStatus.isPaused}
+								{#if batchStatus.currentJob.status !== 'Paused'}
 									<div
 										class="absolute inset-0 bg-white/20 animate-pulse"
 									></div>
@@ -546,7 +562,7 @@
 							>
 							<span
 								class="font-extrabold text-emerald-600 text-base block"
-								>{batchStatus.sent - batchStatus.failed}</span
+								>{batchStatus.currentJob.emailsSent - batchStatus.currentJob.emailsFailed}</span
 							>
 						</div>
 						<div class="space-y-1">
@@ -556,7 +572,7 @@
 							>
 							<span
 								class="font-extrabold text-rose-600 text-base block"
-								>{batchStatus.failed}</span
+								>{batchStatus.currentJob.emailsFailed}</span
 							>
 						</div>
 						<div class="space-y-1">
@@ -576,7 +592,7 @@
 							>
 							<span
 								class="font-extrabold text-slate-800 text-base block"
-								>{batchStatus.emailDelay}s / email</span
+								>{batchStatus.currentJob.config?.emailDelay || batchStatus.currentJob.delay || 0}s / email</span
 							>
 						</div>
 					</div>
@@ -705,7 +721,7 @@
 		{/if}
 
 		<!-- Empty State when nothing is processing -->
-		{#if !batchStatus && scheduledJobs.length === 0}
+		{#if (!batchStatus || !batchStatus.currentJob) && scheduledJobs.length === 0}
 			<div
 				class="p-1.5 bg-gradient-to-b from-slate-900/[0.03] to-indigo-900/[0.03] border border-indigo-200/70 hover:border-indigo-400/80 hover:ring-1 hover:ring-indigo-400/20 rounded-[2.25rem] shadow-md hover:shadow-xl transition-all duration-300 max-w-2xl mx-auto mt-6 relative overflow-hidden group"
 			>

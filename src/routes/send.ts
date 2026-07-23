@@ -254,6 +254,13 @@ app.post("/send", async (c) => {
       const emailRangeStart = parseInt(formData.get("emailRangeStart") as string) || 0;
       const emailRangeCount = parseInt(formData.get("emailRangeCount") as string) || allContacts.length;
       
+      if (isNaN(emailRangeStart) || emailRangeStart < 0) {
+        return c.json({ success: false, message: "Invalid email range start" }, 400);
+      }
+      if (isNaN(emailRangeCount) || emailRangeCount < 1) {
+        return c.json({ success: false, message: "Invalid email range count" }, 400);
+      }
+
       const endIndex = Math.min(emailRangeStart + emailRangeCount, allContacts.length);
       contacts = allContacts.slice(emailRangeStart, endIndex);
       
@@ -401,7 +408,8 @@ app.post("/send", async (c) => {
         const jobId = await batchService.startBatchJob(
           emailJob,
           batchConfig!,
-          notificationSettings // NEW parameter
+          user.id,
+          notificationSettings ? { email: notificationSettings.email, configName: notificationSettings.configName } : undefined
         );
 
         return c.json({
@@ -420,9 +428,15 @@ app.post("/send", async (c) => {
         );
         emailService.createTransport(emailConfig);
 
+        const jobId = `bulk_${Date.now()}`;
         // UPDATED: Pass notification settings to bulk email
         emailService
-          .sendBulkEmails(emailJob, notificationSettings)
+          .sendBulkEmails(
+            emailJob,
+            user.id,
+            jobId,
+            notificationSettings ? { email: notificationSettings.email, configName: notificationSettings.configName } : undefined
+          )
           .catch((error) => {
             console.error("Bulk email sending failed:", error);
           });
@@ -517,13 +531,15 @@ app.post("/provider-info", async (c) => {
 });
 
 app.get("/scheduled-jobs", (c) => {
-  const jobs = schedulerService.getScheduledJobs();
+  const user = requireAuth(c);
+  const jobs = schedulerService.getUserScheduledJobs(user.id);
   return c.json({ success: true, data: jobs });
 });
 
 app.delete("/scheduled-jobs/:id", async (c) => {
+  const user = requireAuth(c);
   const jobId = c.req.param("id");
-  const cancelled = await schedulerService.cancelScheduledJob(jobId);
+  const cancelled = await schedulerService.cancelScheduledJob(jobId, user.id);
 
   if (cancelled) {
     return c.json({ success: true, message: "Scheduled job cancelled" });
@@ -552,11 +568,9 @@ app.post("/parse-excel", async (c) => {
     );
     const contacts = await FileService.parseExcelFile(filePath);
 
-    const previewContacts = contacts.slice(0, 5);
-
     return c.json({
       success: true,
-      contacts: previewContacts,
+      contacts: contacts,
       totalCount: contacts.length,
     });
   } catch (error) {
@@ -567,21 +581,37 @@ app.post("/parse-excel", async (c) => {
 });
 
 app.get("/batch-status", (c) => {
-  const status = batchService.getBatchStatus();
+  const user = requireAuth(c);
+  const status = batchService.getBatchStatus(user.id);
   return c.json({ success: true, data: status });
 });
 
 app.post("/batch-pause", async (c) => {
+  const user = requireAuth(c);
+  const status = batchService.getBatchStatus(user.id);
+  if (!status.currentJob || status.currentJob.userId !== user.id) {
+    return c.json({ success: false, message: "No active batch job found" }, 404);
+  }
   await batchService.pauseCurrentJob();
   return c.json({ success: true, message: "Batch job paused" });
 });
 
 app.post("/batch-resume", async (c) => {
+  const user = requireAuth(c);
+  const status = batchService.getBatchStatus(user.id);
+  if (!status.currentJob || status.currentJob.userId !== user.id) {
+    return c.json({ success: false, message: "No active batch job found" }, 404);
+  }
   await batchService.resumeCurrentJob();
   return c.json({ success: true, message: "Batch job resumed" });
 });
 
 app.delete("/batch-cancel", async (c) => {
+  const user = requireAuth(c);
+  const status = batchService.getBatchStatus(user.id);
+  if (!status.currentJob || status.currentJob.userId !== user.id) {
+    return c.json({ success: false, message: "No active batch job found" }, 404);
+  }
   await batchService.cancelCurrentJob();
   return c.json({ success: true, message: "Batch job cancelled" });
 });

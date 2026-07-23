@@ -198,11 +198,10 @@ class SchedulerService {
         // Create notification settings for batch job
         const notificationSettings = job.notify_email ? {
           email: job.notify_email,
-          userId: job.user_id,
           configName: job.config_name || 'Scheduled Batch Job'
         } : undefined;
 
-        executionPromise = batchService.startBatchJob(emailJob, batchConfig, notificationSettings);
+        executionPromise = batchService.startBatchJob(emailJob, batchConfig, job.user_id, notificationSettings);
 
         // FIXED: For batch jobs, just monitor completion but DON'T send notification
         // The batch service will handle the notification
@@ -217,11 +216,10 @@ class SchedulerService {
         // Create notification settings for bulk job
         const notificationSettings = job.notify_email ? {
           email: job.notify_email,
-          userId: job.user_id,
           configName: job.config_name || 'Scheduled Bulk Job'
         } : undefined;
 
-        executionPromise = emailService.sendBulkEmails(emailJob, notificationSettings);
+        executionPromise = emailService.sendBulkEmails(emailJob, job.user_id, job.id, notificationSettings);
 
         // Wait for completion and send notification
         await executionPromise;
@@ -375,17 +373,17 @@ class SchedulerService {
       .all();
   }
 
-  async cancelScheduledJob(jobId: string): Promise<boolean> {
+  async cancelScheduledJob(jobId: string, userId: string): Promise<boolean> {
     try {
       const result = this.db
         .prepare(
           `
         UPDATE scheduled_jobs 
         SET status = 'cancelled' 
-        WHERE id = ? AND status = 'scheduled'
+        WHERE id = ? AND user_id = ? AND status = 'scheduled'
       `
         )
-        .run(jobId);
+        .run(jobId, userId);
 
       return result.changes > 0;
     } catch (error) {

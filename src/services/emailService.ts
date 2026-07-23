@@ -99,9 +99,10 @@ export class EmailService {
 
   async sendBulkEmails(
     job: EmailJob,
+    userId: string,
+    jobId: string,
     notificationSettings?: {
       email?: string;
-      userId?: string;
       configName?: string;
     }
   ): Promise<void> {
@@ -139,7 +140,8 @@ export class EmailService {
         const info = await this.transporter.sendMail(mailOptions);
 
         logService.addLog({
-          id: `email_${Date.now()}_${i}`,
+          userId,
+          id: `email_${jobId}_${Date.now()}_${i}`,
           email: contact.Email,
           status: "Sent",
           timestamp: new Date().toISOString(),
@@ -156,7 +158,8 @@ export class EmailService {
           error instanceof Error ? error.message : "Unknown error";
 
         logService.addLog({
-          id: `email_${Date.now()}_${i}`,
+          userId,
+          id: `email_${jobId}_${Date.now()}_${i}`,
           email: contact.Email,
           status: "Failed",
           message: errorMessage,
@@ -183,10 +186,14 @@ export class EmailService {
 
     console.log("Bulk email send completed");
     // NEW: Send completion notification if requested
-    if (notificationSettings?.email && notificationSettings?.userId) {
+    if (notificationSettings?.email) {
       await this.sendBulkCompletionNotification(
         job,
-        notificationSettings,
+        {
+          email: notificationSettings.email,
+          userId,
+          configName: notificationSettings.configName,
+        },
         startTime,
         sentCount,
         failedCount

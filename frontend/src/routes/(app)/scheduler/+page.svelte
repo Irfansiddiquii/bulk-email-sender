@@ -324,7 +324,8 @@
 			formData.append("emailRangeStart", "0");
 			formData.append("emailRangeCount", "100");
 			formData.append("scheduleEmail", "on");
-			formData.append("scheduledTime", scheduledTime);
+			const utcTime = new Date(scheduledTime).toISOString();
+			formData.append("scheduledTime", utcTime);
 			if (notifyEmail) formData.append("notifyEmail", notifyEmail);
 
 			if (excelFile) {

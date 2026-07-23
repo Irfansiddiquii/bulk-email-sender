@@ -17,13 +17,13 @@ class BatchService {
   private totalJobs = 0;
   private completedJobs = 0;
 
-  // UPDATED: Accept notification settings parameter
+  // UPDATED: Accept userId and notification settings parameter
   async startBatchJob(
     emailJob: EmailJob,
     batchConfig: BatchConfig,
+    userId: string,
     notificationSettings?: { 
       email: string; 
-      userId: string; 
       configName?: string; 
     }
   ): Promise<string> {
@@ -48,15 +48,19 @@ class BatchService {
       startTime: new Date().toISOString(),
       config: batchConfig,
       emailJob,
-      notificationSettings,                    // NEW
-      userId: notificationSettings?.userId,    // NEW  
-      configName: notificationSettings?.configName // NEW
+      notificationSettings: notificationSettings?.email ? {
+        email: notificationSettings.email,
+        userId,
+        configName: notificationSettings.configName
+      } : undefined,
+      userId,
+      configName: notificationSettings?.configName
     };
 
     this.isRunning = true;
     this.totalJobs++;
 
-    console.log(`🚀 Starting batch job ${jobId} for user ${notificationSettings?.userId || 'unknown'}:`);
+    console.log(`🚀 Starting batch job ${jobId} for user ${userId}:`);
     console.log(
       `   📊 ${emailJob.contacts.length} contacts → ${totalBatches} batches of ${batchConfig.batchSize}`
     );
@@ -115,10 +119,12 @@ class BatchService {
     }
   }
 
-  getBatchStatus(): BatchStatus {
+  getBatchStatus(userId?: string): BatchStatus {
+    const job = this.currentJob;
+    const isOwner = job && userId && job.userId === userId;
     return {
-      isRunning: this.isRunning,
-      currentJob: this.currentJob,
+      isRunning: this.isRunning && !!isOwner,
+      currentJob: isOwner ? job : null,
       totalJobs: this.totalJobs,
       completedJobs: this.completedJobs,
     };

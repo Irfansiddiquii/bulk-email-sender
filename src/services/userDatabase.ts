@@ -1,4 +1,5 @@
 // src/services/userDatabase.ts - SECURE VERSION FOR PRODUCTION
+import "dotenv/config";
 import { existsSync, mkdirSync } from "fs";
 import { dirname } from "path";
 import { hash, verify } from "argon2";
