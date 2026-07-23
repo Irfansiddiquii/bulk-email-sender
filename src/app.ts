@@ -20,7 +20,16 @@ import dashboardRoutes from "./routes/dashboard";
 const app = new Hono();
 
 // Middleware
-app.use("*", cors());
+app.use(
+  "*",
+  cors({
+    origin: "https://bulk-email-sender-frontend.onrender.com",
+    credentials: true,
+    allowMethods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowHeaders: ["Content-Type", "Authorization"],
+    exposeHeaders: ["Set-Cookie"],
+  })
+);
 app.use("*", logger());
 
 // Apply authentication middleware to all protected routes
